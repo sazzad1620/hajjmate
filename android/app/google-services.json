@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "348278121071",
+    "project_id": "hajjmate-app",
+    "storage_bucket": "hajjmate-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348278121071:android:c4aa05b5d84a3ab612239a",
+        "android_client_info": {
+          "package_name": "com.sazzad.hajjmate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT0yb27vkHINBE9ry0zvQTYzEzQ0wh6nk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
