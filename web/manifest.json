@@ -1,6 +1,6 @@
 {
-    "name": "hajjmate",
-    "short_name": "hajjmate",
+    "name": "HajjMate",
+    "short_name": "HajjMate",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
