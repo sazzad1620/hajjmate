@@ -343,14 +343,50 @@ Tests are written **with** each feature, not at the end, and kept small.
 - **What is not tested:** UI screens and Firebase itself.
 - Geofencing and background behaviour are checked by hand on real phones.
 
-## 10. Git workflow
+## 10. Developer decisions and conventions
+
+Rules the developer follows (and expects from any assistant), applied everywhere.
+
+### 10.1 Working rules
+
+- **The AI assistant never commits or pushes.** Only the developer runs `git add`, `git commit` and `git push`.
+- After each finished sub-task the assistant suggests one short commit message; the developer decides and commits.
+- The developer builds the project; the assistant helps and explains, so every part can be explained by the developer.
+
+### 10.2 Coding conventions
+
+**Comments:** keep them to a minimum: one short comment, just long enough to understand. Good names make the code say *what* it does; a comment is only for *why*: a workaround, a platform limit, a surprising condition or a business rule that the code cannot show. No comment that repeats the code. A one-line doc comment on a public interface is fine when its name alone is not clear.
+
+**Naming**
+- Files `snake_case`, classes `PascalCase`, variables and methods `camelCase`.
+- Interfaces have plain names (`ZoneRepository`); implementations start with the technology (`FirestoreZoneRepository`).
+- Use cases `verb_noun_use_case.dart`; BLoC files `name_bloc.dart`, `name_event.dart`, `name_state.dart`.
+
+**Structure**
+- One main class per file. Keep classes and methods small, with a single job.
+- Split a large screen into small widgets instead of one long `build` method.
+- Domain imports no Flutter or Firebase; presentation never imports data. Use `package:` imports.
+
+**Dart style**
+- Entities are immutable: `final` fields, `const` constructors, `Equatable`.
+- Prefer named parameters when a function takes more than two.
+- No `dynamic`, and no `!` (null assertion) without a reason.
+- No magic numbers or hardcoded colours in widgets: limits go in `core/constants`, colours and text styles in the theme.
+
+**Errors:** repositories return `Either<Failure, T>` and do not throw across layers; every BLoC has loading, success and failure states.
+
+**Before every commit:** `dart format`, `flutter analyze` clean, tests pass. No commented-out code and no `print`.
+
+**Packages:** do not add a new package without a reason written in the commit message.
+
+## 11. Git workflow
 
 - **Commits:** Conventional Commits with a scope, `type(scope): short imperative description`, for example `feat(zone): add radius edit`.
 - **Direct to `main`:** project setup and documentation.
 - **Feature work:** one branch per sub-task (`feat/zone-crud`), merged into `main` with a pull request. Normal merge (not squash), so the small commits stay in the history.
 - `main` should always build and run.
 
-## 11. Risks and open items
+## 12. Risks and open items
 
 | # | Item | Plan |
 |---|---|---|
