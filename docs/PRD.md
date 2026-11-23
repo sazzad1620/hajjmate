@@ -2,7 +2,7 @@
 
 | Version | Last updated | Author |
 |---|---|---|
-| 1.1 | 23 November 2026 | Md. Sazzad Hossain |
+| 1.2 | 24 November 2026 | Md. Sazzad Hossain |
 
 > **Note:** This is a living document. Scope, constraints and technology choices may change as the project evolves (for example, while writing the TRD).
 
@@ -65,6 +65,7 @@ Rules: one leader manages one group of **up to 50 Hajjis**; Hajjis join with a c
 
 - Flutter (Dart), Clean Architecture with BLoC; OOP and SOLID principles applied throughout for maintainability (also a course requirement)
 - The UI starts in English; Bangla support is added later (Demo 2)
+- The first version has a light theme only, which reads best outdoors in bright sun for senior users
 - Firebase Spark (free) plan: Realtime Database for live location and alerts, Firestore for everything else
 - Android first, tested on real phones; developer machine is an Intel Mac
 - Leader's app must run in the background to receive alerts (no server push in the first version)
@@ -90,3 +91,4 @@ The detailed 15–20 sub-tasks live in the implementation plan (`ROADMAP.md`), e
 
 - **QR code join:** the leader's join code shown as a QR code that Hajjis can scan instead of typing. Planned only if time allows within the project timeline.
 - **Offline task sync:** a Hajji can tick checklist tasks without internet; changes are saved on the phone and synced automatically when the connection returns.
+- **Dark mode:** a dark colour theme as an option. The first version is light only.

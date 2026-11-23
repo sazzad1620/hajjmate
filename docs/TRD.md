@@ -2,7 +2,7 @@
 
 | Version | Last updated | Author |
 |---|---|---|
-| 1.0 | 23 November 2026 | Md. Sazzad Hossain |
+| 1.0 | 24 November 2026 | Md. Sazzad Hossain |
 
 > **Note:** This is a living document. Decisions here may change as the code is written. When one changes, update this file. Product scope lives in [PRD.md](PRD.md); the ordered task list lives in `ROADMAP.md`.
 
@@ -371,7 +371,7 @@ Rules the developer follows (and expects from any assistant), applied everywhere
 - Entities are immutable: `final` fields, `const` constructors, `Equatable`.
 - Prefer named parameters when a function takes more than two.
 - No `dynamic`, and no `!` (null assertion) without a reason.
-- No magic numbers or hardcoded colours in widgets: limits go in `core/constants`, colours and text styles in the theme.
+- No magic numbers or hardcoded colours in widgets: limits go in `core/constants`, colours and text styles in the theme. All colours live in one theme definition and widgets read them from the theme, so a dark theme can be added later in one place without touching the screens.
 
 **Errors:** repositories return `Either<Failure, T>` and do not throw across layers; every BLoC has loading, success and failure states.
 
