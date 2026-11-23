@@ -42,7 +42,7 @@ Rules:
 
 ### 2.2 Typography
 
-- **Font:** Anek Bangla for everything. One font covers both Bangla and English letters, so mixed lines (a Hajji's English name inside a Bangla sentence) look consistent, and no second font or fallback is needed.
+- **Font:** Anek Bangla for everything, bundled in the app's assets so it works offline. One font covers both Bangla and English letters, so mixed lines (a Hajji's English name inside a Bangla sentence) look consistent, and no second font or fallback is needed.
 - **Sizes:** body 18, heading 22, title 28, small text 14 (the minimum, used only for timestamps and hints).
 - **Weights:** regular and semi-bold only.
 
@@ -102,6 +102,5 @@ Every list and data screen has all three:
 
 | # | Item | Plan |
 |---|---|---|
-| 1 | Maximum zone radius is not decided | Suggest 1000 m; decide in task 8 |
-| 2 | Font delivery: bundle the Anek Bangla file in the app or use the `google_fonts` package | Bundling works offline and needs no package; decide in task 1 |
-| 3 | Exact screen layouts | Sketch on paper or Figma before each UI task if needed |
+| 1 | Maximum zone radius is not decided | Suggest 1000 m; decide in task 7 |
+| 2 | Exact screen layouts | Sketch on paper or Figma before each UI task if needed |

@@ -34,7 +34,7 @@ Data (models, data sources, repository implementations)  ──depends on──�
 
 | # | Decision | Reason |
 |---|---|---|
-| 1 | **Use cases:** one class per action, implementing `IUseCase<Input, Output>` | Single Responsibility; matches the industry-style reference project. BLoC stays thin. |
+| 1 | **Use cases:** one class per action, implementing `UseCase<Input, Output>` | Single Responsibility; matches the industry-style reference project. BLoC stays thin. |
 | 2 | **Errors:** `Either<Failure, T>` (`dartz`) with an abstract `Failure` hierarchy | Errors are explicit return values; the hierarchy shows inheritance and polymorphism. |
 | 3 | **Dependency injection:** `get_it`, registered by hand in one file | No code generation; one file shows which implementation serves which interface. |
 | 4 | **Entities and models are separate** (`Zone` vs `ZoneModel`) | The domain stays free of Firebase; only the model knows how to read and write a Firestore document. |
@@ -54,7 +54,7 @@ lib/
     core/
       constants/                   default group id, limits (zone radius, max zones)
       errors/                      failures.dart, error_handler.dart
-      interfaces/                  IUseCase
+      interfaces/                  UseCase
       di/                          injection.dart (get_it registrations)
       router/                      app_router.dart
       theme/
@@ -382,15 +382,16 @@ Rules the developer follows (and expects from any assistant), applied everywhere
 ## 11. Git workflow
 
 - **Commits:** Conventional Commits with a scope, `type(scope): short imperative description`, for example `feat(zone): add radius edit`.
-- **Direct to `main`:** project setup and documentation.
-- **Feature work:** one branch per sub-task (`feat/zone-crud`), merged into `main` with a pull request. Normal merge (not squash), so the small commits stay in the history.
+- **Work directly on `main`:** one developer, small commits. Each sub-task is 2–4 commits; commit only when `flutter analyze` is clean and the app runs.
+- **Spike:** the throw-away spike (Roadmap task 4) is done on a local branch that is never pushed; only its result is written into this document.
+- **Tags:** `demo-1` and `demo-2` mark the end of each milestone, so a working state can always be restored.
 - `main` should always build and run.
 
 ## 12. Risks and open items
 
 | # | Item | Plan |
 |---|---|---|
-| 1 | Writing to Realtime Database from the geofence callback (background isolate) is untested here | First sub-task of the Roadmap: a small spike on a real Android phone |
+| 1 | Writing to Realtime Database from the geofence callback (background isolate) is untested here | Roadmap task 4: a small spike on a real Android phone, before the geofence work |
 | 2 | A foreground service for both roles must survive battery-saving settings on real phones | Same spike; document phone settings if needed |
 | 3 | Role is self-declared and alerts are not checked against the writer (no server) | Accepted for Demo 1; alert check added in Demo 2 (section 6) |
 | 4 | Join-code validation without a server (Demo 2) | Revisit when Demo 2 starts |
