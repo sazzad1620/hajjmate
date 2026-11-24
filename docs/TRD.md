@@ -63,11 +63,12 @@ lib/
     shared/
       models/                      coordinates.dart
       theme/                       app_colors.dart, app_typography.dart, app_theme.dart
-      widgets/                     buttons/, inputfields/, toast/ (shared UI)
+      widgets/                     buttons/, inputfields/, layouts/, toast/ (shared UI)
     features/
       auth/        data/ domain/ presentation/
       splash/      presentation/                   (session check at app start)
-      home/        presentation/                   (role home screens)
+      home/        presentation/                   (bottom navigation shell for both roles)
+      profile/     presentation/                   (Leader "More" and Hajji "Profile" screens)
       map/         data/ domain/ presentation/     (live group map)
       zones/       data/ domain/ presentation/     (zone CRUD and geofence registration)
       alerts/      data/ domain/ presentation/     (geofence callback, notifications, alert list)

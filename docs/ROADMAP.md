@@ -123,4 +123,7 @@
 
 Tasks that appear while building are added here (with the reason), instead of being hidden.
 
-- (none yet)
+- [ ] **Home shells** `core` (to do before task 5)
+  Replace the two temporary home screens with the real navigation from DESIGN §3: a bottom bar for the Leader (`Map | Zones | Alerts | More`) and for the Hajji (`Home | Map | Profile`; `Tasks` comes in Demo 2). Each tab is an empty screen with a title for now, and Sign out moves into More (Leader) and Profile (Hajji).
+  *Why added:* the first plan had no task for the app's navigation structure, so the first real screens would have been bolted onto temporary pages. Doing it once, now, gives every later task its place.
+  *Done when:* both roles open to their bottom bar, every tab opens, and Sign out works from More or Profile.

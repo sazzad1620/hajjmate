@@ -24,6 +24,7 @@ class SignOutButton extends StatelessWidget {
         builder: (context, state) {
           return BaseButton(
             label: 'Sign out',
+            isPrimary: false,
             onPressed: () =>
                 context.read<SignOutBloc>().add(const SignOutRequested()),
             isLoading: state is SignOutSubmitting,

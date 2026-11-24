@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hajjmate/src/config/router/app_routes.dart';
+import 'package:hajjmate/src/core/constants/app_constants.dart';
 import 'package:hajjmate/src/core/utils/validators.dart';
 import 'package:hajjmate/src/features/auth/domain/entities/role.dart';
 import 'package:hajjmate/src/features/auth/domain/entities/sign_up_params.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/sign_up_bloc.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/sign_up_event.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/sign_up_state.dart';
+import 'package:hajjmate/src/features/auth/presentation/widgets/auth_switch_link.dart';
 import 'package:hajjmate/src/shared/widgets/buttons/base_button.dart';
 import 'package:hajjmate/src/shared/widgets/inputfields/base_input.dart';
 import 'package:hajjmate/src/shared/widgets/toast/app_toast.dart';
@@ -55,8 +57,9 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Create an account')),
       body: SafeArea(
         child: BlocConsumer<SignUpBloc, SignUpState>(
           listener: (context, state) {
@@ -75,6 +78,11 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    const SizedBox(height: 32),
+                    Text(AppConstants.appName, style: textTheme.headlineMedium),
+                    const SizedBox(height: 8),
+                    Text('Create your account', style: textTheme.bodyLarge),
+                    const SizedBox(height: 32),
                     BaseInput(
                       label: 'Full name',
                       controller: _nameController,
@@ -104,19 +112,26 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                     ),
                     const SizedBox(height: 32),
                     BaseButton(
+                      label: 'Sign up as Hajji',
+                      onPressed: isSubmitting
+                          ? null
+                          : () => _submit(Role.hajji),
+                      isLoading: isSubmitting && _submittingRole == Role.hajji,
+                    ),
+                    const SizedBox(height: 16),
+                    BaseButton(
                       label: 'Sign up as Leader',
+                      isPrimary: false,
                       onPressed: isSubmitting
                           ? null
                           : () => _submit(Role.leader),
                       isLoading: isSubmitting && _submittingRole == Role.leader,
                     ),
                     const SizedBox(height: 16),
-                    BaseButton(
-                      label: 'Sign up as Hajji',
-                      onPressed: isSubmitting
-                          ? null
-                          : () => _submit(Role.hajji),
-                      isLoading: isSubmitting && _submittingRole == Role.hajji,
+                    AuthSwitchLink(
+                      message: 'Already have an account?',
+                      actionLabel: 'Sign in',
+                      onTap: () => context.go(AppRoutes.login),
                     ),
                   ],
                 ),

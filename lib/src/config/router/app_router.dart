@@ -8,11 +8,14 @@ import 'package:hajjmate/src/features/auth/presentation/bloc/sign_up_bloc.dart';
 import 'package:hajjmate/src/features/auth/presentation/screens/screen_forgot_password.dart';
 import 'package:hajjmate/src/features/auth/presentation/screens/screen_login.dart';
 import 'package:hajjmate/src/features/auth/presentation/screens/screen_sign_up.dart';
-import 'package:hajjmate/src/features/home/presentation/screens/screen_hajji_home.dart';
-import 'package:hajjmate/src/features/home/presentation/screens/screen_leader_home.dart';
+import 'package:hajjmate/src/features/home/presentation/screens/screen_main_shell.dart';
+import 'package:hajjmate/src/features/home/presentation/shell_destination.dart';
+import 'package:hajjmate/src/features/profile/presentation/screens/screen_hajji_profile.dart';
+import 'package:hajjmate/src/features/profile/presentation/screens/screen_leader_more.dart';
 import 'package:hajjmate/src/features/splash/presentation/bloc/splash_bloc.dart';
 import 'package:hajjmate/src/features/splash/presentation/bloc/splash_event.dart';
 import 'package:hajjmate/src/features/splash/presentation/screens/screen_splash.dart';
+import 'package:hajjmate/src/shared/widgets/layouts/placeholder_tab.dart';
 
 GoRouter createAppRouter() {
   return GoRouter(
@@ -46,13 +49,80 @@ GoRouter createAppRouter() {
           child: const ScreenForgotPassword(),
         ),
       ),
-      GoRoute(
-        path: AppRoutes.leaderHome,
-        builder: (context, state) => const ScreenLeaderHome(),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) => ScreenMainShell(
+          navigationShell: navigationShell,
+          destinations: ShellDestination.leader,
+        ),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.leaderMap,
+                builder: (context, state) => const PlaceholderTab(title: 'Map'),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.leaderZones,
+                builder: (context, state) =>
+                    const PlaceholderTab(title: 'Zones'),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.leaderAlerts,
+                builder: (context, state) =>
+                    const PlaceholderTab(title: 'Alerts'),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.leaderMore,
+                builder: (context, state) => const ScreenLeaderMore(),
+              ),
+            ],
+          ),
+        ],
       ),
-      GoRoute(
-        path: AppRoutes.hajjiHome,
-        builder: (context, state) => const ScreenHajjiHome(),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) => ScreenMainShell(
+          navigationShell: navigationShell,
+          destinations: ShellDestination.hajji,
+        ),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.hajjiHome,
+                builder: (context, state) =>
+                    const PlaceholderTab(title: 'Home'),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.hajjiMap,
+                builder: (context, state) => const PlaceholderTab(title: 'Map'),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.hajjiProfile,
+                builder: (context, state) => const ScreenHajjiProfile(),
+              ),
+            ],
+          ),
+        ],
       ),
     ],
   );

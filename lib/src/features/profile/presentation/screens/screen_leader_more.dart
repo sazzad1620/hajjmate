@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hajjmate/src/features/auth/presentation/widgets/sign_out_button.dart';
 
-class ScreenLeaderHome extends StatelessWidget {
-  const ScreenLeaderHome({super.key});
+class ScreenLeaderMore extends StatelessWidget {
+  const ScreenLeaderMore({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class ScreenLeaderHome extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Leader home',
+                'More',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineMedium,
               ),

@@ -8,6 +8,7 @@ import 'package:hajjmate/src/features/auth/domain/entities/login_params.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/login_bloc.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/login_event.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/login_state.dart';
+import 'package:hajjmate/src/features/auth/presentation/widgets/auth_switch_link.dart';
 import 'package:hajjmate/src/shared/widgets/buttons/base_button.dart';
 import 'package:hajjmate/src/shared/widgets/inputfields/base_input.dart';
 import 'package:hajjmate/src/shared/widgets/toast/app_toast.dart';
@@ -97,9 +98,10 @@ class _ScreenLoginState extends State<ScreenLogin> {
                       isLoading: state is LoginSubmitting,
                     ),
                     const SizedBox(height: 16),
-                    TextButton(
-                      onPressed: () => context.push(AppRoutes.signUp),
-                      child: const Text('Create an account'),
+                    AuthSwitchLink(
+                      message: "Don't have an account?",
+                      actionLabel: 'Sign up',
+                      onTap: () => context.push(AppRoutes.signUp),
                     ),
                   ],
                 ),

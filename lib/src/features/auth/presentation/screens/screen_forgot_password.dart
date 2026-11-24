@@ -38,8 +38,9 @@ class _ScreenForgotPasswordState extends State<ScreenForgotPassword> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Reset password')),
       body: SafeArea(
         child: BlocConsumer<ForgotPasswordBloc, ForgotPasswordState>(
           listener: (context, state) {
@@ -59,11 +60,14 @@ class _ScreenForgotPasswordState extends State<ScreenForgotPassword> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    const SizedBox(height: 32),
+                    Text('Reset password', style: textTheme.headlineMedium),
+                    const SizedBox(height: 8),
                     Text(
                       'Enter your email and we will send you a link to reset your password.',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: textTheme.bodyLarge,
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 32),
                     BaseInput(
                       label: 'Email',
                       controller: _emailController,
@@ -76,6 +80,11 @@ class _ScreenForgotPasswordState extends State<ScreenForgotPassword> {
                       label: 'Send reset link',
                       onPressed: _submit,
                       isLoading: state is ForgotPasswordSubmitting,
+                    ),
+                    const SizedBox(height: 16),
+                    TextButton(
+                      onPressed: () => context.pop(),
+                      child: const Text('Back to sign in'),
                     ),
                   ],
                 ),

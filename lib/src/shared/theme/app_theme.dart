@@ -7,6 +7,10 @@ class AppTheme {
 
   static const double _minTapTarget = 56;
 
+  static const RoundedRectangleBorder _buttonShape = RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(14)),
+  );
+
   static OutlineInputBorder _inputBorder(Color color, {double width = 1}) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(14),
@@ -36,13 +40,18 @@ class AppTheme {
         bodySmall: AppTypography.small,
         labelLarge: AppTypography.button,
       ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          minimumSize: const Size.fromHeight(_minTapTarget),
+          textStyle: AppTypography.button,
+          shape: _buttonShape,
+        ),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           minimumSize: const Size.fromHeight(_minTapTarget),
           textStyle: AppTypography.button,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
+          shape: _buttonShape,
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
