@@ -6,6 +6,7 @@ import 'package:hajjmate/src/core/constants/app_constants.dart';
 import 'package:hajjmate/src/features/map/presentation/widgets/member_marker.dart';
 import 'package:hajjmate/src/features/map/presentation/widgets/member_sheet.dart';
 import 'package:hajjmate/src/features/tracking/domain/entities/location_update.dart';
+import 'package:hajjmate/src/shared/widgets/map/osm_tile_layer.dart';
 import 'package:latlong2/latlong.dart';
 
 class GroupMap extends StatefulWidget {
@@ -79,10 +80,7 @@ class _GroupMapState extends State<GroupMap> {
         },
       ),
       children: [
-        TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: AppConstants.packageName,
-        ),
+        OsmTileLayer(),
         MarkerLayer(
           markers: [
             for (final member in widget.members)

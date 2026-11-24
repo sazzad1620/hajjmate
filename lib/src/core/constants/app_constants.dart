@@ -8,6 +8,7 @@ class AppConstants {
 
   static const double minZoneRadiusM = 100;
   static const double defaultZoneRadiusM = 150;
+  static const double maxZoneRadiusM = 500;
   static const int maxZonesPerGroup = 10;
 
   /// With a bad connection the splash screen gives up and shows sign in.

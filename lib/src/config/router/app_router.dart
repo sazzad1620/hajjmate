@@ -18,6 +18,12 @@ import 'package:hajjmate/src/features/profile/presentation/screens/screen_hajji_
 import 'package:hajjmate/src/features/profile/presentation/screens/screen_leader_more.dart';
 import 'package:hajjmate/src/features/splash/presentation/bloc/splash_bloc.dart';
 import 'package:hajjmate/src/features/tracking/presentation/bloc/location_sharing_bloc.dart';
+import 'package:hajjmate/src/features/zones/presentation/bloc/zone_form_bloc.dart';
+import 'package:hajjmate/src/features/zones/presentation/bloc/zone_form_event.dart';
+import 'package:hajjmate/src/features/zones/presentation/bloc/zone_list_bloc.dart';
+import 'package:hajjmate/src/features/zones/presentation/bloc/zone_list_event.dart';
+import 'package:hajjmate/src/features/zones/presentation/screens/screen_zone_form.dart';
+import 'package:hajjmate/src/features/zones/presentation/screens/screen_zones.dart';
 import 'package:hajjmate/src/features/tracking/presentation/bloc/location_sharing_event.dart';
 import 'package:hajjmate/src/features/splash/presentation/bloc/splash_event.dart';
 import 'package:hajjmate/src/features/splash/presentation/screens/screen_splash.dart';
@@ -55,6 +61,13 @@ GoRouter createAppRouter() {
           child: const ScreenForgotPassword(),
         ),
       ),
+      GoRoute(
+        path: AppRoutes.zoneForm,
+        builder: (context, state) => BlocProvider(
+          create: (_) => getIt<ZoneFormBloc>()..add(const ZoneFormStarted()),
+          child: const ScreenZoneForm(),
+        ),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) => ScreenMainShell(
           navigationShell: navigationShell,
@@ -77,8 +90,11 @@ GoRouter createAppRouter() {
             routes: [
               GoRoute(
                 path: AppRoutes.leaderZones,
-                builder: (context, state) =>
-                    const PlaceholderTab(title: 'Zones'),
+                builder: (context, state) => BlocProvider(
+                  create: (_) =>
+                      getIt<ZoneListBloc>()..add(const ZoneListStarted()),
+                  child: const ScreenZones(),
+                ),
               ),
             ],
           ),

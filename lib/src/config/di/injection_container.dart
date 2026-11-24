@@ -28,6 +28,12 @@ import 'package:hajjmate/src/features/tracking/domain/usecases/start_location_sh
 import 'package:hajjmate/src/features/tracking/domain/usecases/stop_location_sharing_use_case.dart';
 import 'package:hajjmate/src/features/tracking/domain/usecases/watch_group_locations_use_case.dart';
 import 'package:hajjmate/src/features/tracking/presentation/bloc/location_sharing_bloc.dart';
+import 'package:hajjmate/src/features/zones/data/repositories/firestore_zone_repository.dart';
+import 'package:hajjmate/src/features/zones/domain/repositories/zone_repository.dart';
+import 'package:hajjmate/src/features/zones/domain/usecases/create_zone_use_case.dart';
+import 'package:hajjmate/src/features/zones/domain/usecases/watch_zones_use_case.dart';
+import 'package:hajjmate/src/features/zones/presentation/bloc/zone_form_bloc.dart';
+import 'package:hajjmate/src/features/zones/presentation/bloc/zone_list_bloc.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -37,6 +43,7 @@ void configureDependencies() {
   _registerAuth();
   _registerTracking();
   _registerMap();
+  _registerZones();
   _registerSplash();
 }
 
@@ -107,6 +114,19 @@ void _registerTracking() {
 
 void _registerMap() {
   getIt.registerFactory<GroupMapBloc>(() => GroupMapBloc(getIt(), getIt()));
+}
+
+void _registerZones() {
+  getIt
+    ..registerLazySingleton<ZoneRepository>(
+      () => FirestoreZoneRepository(getIt(), getIt()),
+    )
+    ..registerLazySingleton<WatchZonesUseCase>(() => WatchZonesUseCase(getIt()))
+    ..registerLazySingleton<CreateZoneUseCase>(() => CreateZoneUseCase(getIt()))
+    ..registerFactory<ZoneListBloc>(() => ZoneListBloc(getIt(), getIt()))
+    ..registerFactory<ZoneFormBloc>(
+      () => ZoneFormBloc(getIt(), getIt(), getIt()),
+    );
 }
 
 void _registerSplash() {

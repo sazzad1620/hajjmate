@@ -11,6 +11,11 @@ class Validators {
     return null;
   }
 
+  static String? zoneName(String? value) {
+    if (value == null || value.trim().isEmpty) return 'Enter a zone name';
+    return null;
+  }
+
   static String? phone(String? value) {
     if (value == null || !_phone.hasMatch(value.trim())) {
       return 'Enter a valid phone number';

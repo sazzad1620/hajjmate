@@ -58,7 +58,7 @@
   *Done when:* story 2 passes: pins update at least every 60 s with the time shown.
   *Reference:* field-track `features/locations/presentation/widgets/location_map_preview.dart`.
 
-- [ ] **7. Zones: create and list** `zone`
+- [x] **7. Zones: create and list** `zone`
   `Zone` (private centre and radius, validation, `contains`) with unit tests, `ZoneRepository`, use cases, create zone (tap a point, radius default 150 m, min 100 m), list, 10-zone limit.
   *Done when:* the `Zone` tests pass (a point inside, on and outside; a radius below 100 m rejected), a leader creates and lists zones and an 11th is refused.
   *Reference:* field-track `features/locations/` (`geofence_radius_slider.dart`, `location_radius_limits.dart`).
