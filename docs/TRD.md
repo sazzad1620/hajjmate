@@ -57,12 +57,13 @@ lib/
       router/                      app_router.dart, app_routes.dart
     core/
       constants/                   app_constants.dart (default group id, zone limits)
-      errors/                      failures.dart
+      errors/                      failures.dart, exceptions.dart, error_handler.dart
+      utils/                       validators.dart
       interfaces/                  use_case.dart
     shared/
-      models/                      no_params.dart, coordinates.dart
+      models/                      coordinates.dart
       theme/                       app_colors.dart, app_typography.dart, app_theme.dart
-      widgets/                     buttons, loading and error views
+      widgets/                     buttons/, inputfields/, toast/ (shared UI)
     features/
       auth/        data/ domain/ presentation/
       map/         data/ domain/ presentation/     (live group map)
@@ -106,6 +107,7 @@ classDiagram
         <<abstract>>
         -String id
         -String name
+        -String phone
         -String email
         -String groupId
         +role() Role*
@@ -215,7 +217,7 @@ Two Firebase products on the free Spark plan:
 
 | Collection | Document fields | Notes |
 |---|---|---|
-| `users/{uid}` | `name`, `email`, `role` (`leader` or `hajji`), `groupId`, `createdAt` | Created on first sign-in, after the user picks a role |
+| `users/{uid}` | `name`, `phone`, `email`, `role` (`leader` or `hajji`), `groupId`, `createdAt` | Created on first sign-in, after the user picks a role |
 | `groups/{groupId}` | `name`, `joinCode`, `leaderId`, `createdAt` | Demo 1 uses a single `default` group; real groups in Demo 2 |
 | `zones/{zoneId}` | `groupId`, `name`, `latitude`, `longitude`, `radiusM`, `createdBy`, `createdAt` | Max 10 per group; radius at least 100 m (default 150 m) |
 | `tasks/{taskId}` (Demo 2) | `groupId`, `title`, `createdBy`, `createdAt` | |

@@ -21,10 +21,6 @@ class PermissionFailure extends Failure {
   const PermissionFailure({super.message = 'Permission was denied.'});
 }
 
-class ValidationFailure extends Failure {
-  const ValidationFailure({super.message = 'The entered data is not valid.'});
-}
-
 class ServerFailure extends Failure {
   const ServerFailure({super.message = 'Server error occurred.'});
 }

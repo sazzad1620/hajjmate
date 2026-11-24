@@ -7,6 +7,13 @@ class AppTheme {
 
   static const double _minTapTarget = 56;
 
+  static OutlineInputBorder _inputBorder(Color color, {double width = 1}) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+      borderSide: BorderSide(color: color, width: width),
+    );
+  }
+
   static ThemeData get light {
     return ThemeData(
       useMaterial3: true,
@@ -37,6 +44,16 @@ class AppTheme {
             borderRadius: BorderRadius.circular(14),
           ),
         ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColors.lightSurface,
+        contentPadding: const EdgeInsets.all(16),
+        border: _inputBorder(AppColors.lightBorder),
+        enabledBorder: _inputBorder(AppColors.lightBorder),
+        focusedBorder: _inputBorder(AppColors.primary, width: 2),
+        errorBorder: _inputBorder(AppColors.danger),
+        focusedErrorBorder: _inputBorder(AppColors.danger, width: 2),
       ),
       cardTheme: CardThemeData(
         color: AppColors.lightSurface,

@@ -7,6 +7,6 @@ import 'package:hajjmate/src/config/di/injection_container.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await configureDependencies();
+  configureDependencies();
   runApp(const HajjMateApp());
 }
