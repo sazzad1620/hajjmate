@@ -44,7 +44,7 @@
   Splash that restores the session on app start, role-based redirect after sign-in (leader home vs Hajji home), sign out. The two home screens are temporary placeholders (title and a sign-out button) that later tasks replace.
   *Done when:* story 1 passes: the role is saved at sign-up, each role lands on its own home, the user stays signed in after restart, and sign out returns to login.
 
-- [ ] **4. Background spike** `geofence`
+- [x] **4. Background spike** `geofence`
   Throw-away experiment on a real Android phone: foreground service stays alive, a `native_geofence` callback runs in the background and writes to Realtime Database. Done on a local branch that is never pushed; only the result is committed.
   *Done when:* the result is written into TRD §12 (works, or what to change). **If it fails, the plan below is revised before going further.**
   *Reference:* field-track `features/geofence/geofence_callback.dart`, `data/native_geofence_registry.dart`.

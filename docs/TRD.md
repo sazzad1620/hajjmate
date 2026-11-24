@@ -323,6 +323,29 @@ The geofence part follows the pattern of an earlier project (`field-track`, whic
 - Android first. Geofencing, background location and notifications do not run on web; guard with `kIsWeb` or a no-op `DeviceLocationProvider`.
 - Up to 50 Hajjis and 10 zones per group; location update every 30–60 s; zone radius at least 100 m (default 150 m).
 
+### 7.5 Spike result (Roadmap task 4, 24 November 2026)
+
+A throw-away app was run on an **Android emulator** (Pixel image, API 37). It was signed in as a normal user and used the Realtime Database rules `auth != null`. Nothing from it was kept.
+
+| Question | Result |
+|---|---|
+| Does the foreground service keep running Dart code, with the app in the background, with the screen off, and after the app is removed from recents? | **Yes.** A heartbeat was written to the Realtime Database every 30 s in all four cases. Tested for about 3 minutes each, not hours. |
+| Does the `native_geofence` callback run in the background? | **Yes.** Enter and exit events arrived after moving the mock location 300 m out of a 100 m zone and back, also with the app removed from recents. |
+| Can the callback start Firebase and write to the Realtime Database? | **Yes.** The signed-in session is available in the background isolates, so rule `auth != null` accepts the writes. The local notification was also shown from the callback. |
+
+No fallback is needed; the design in 7.1 and 7.2 stays as written.
+
+**Findings to use in the real tasks**
+
+- **Package versions:** `native_geofence`, `flutter_foreground_task`, `firebase_database`, `geolocator` at their latest. `flutter_local_notifications` must stay on `^22` and `permission_handler` on `^12`: the newest versions need Android SDK 37 and AGP 9.1, but this project uses AGP 9.0.1.
+- **Android setup that was required:** core library desugaring, `minSdk` at least 23, the location permissions (including background location), the `flutter_foreground_task` service and the three `native_geofence` entries in the manifest (see the package READMEs).
+- **Database URL:** create the Realtime Database first, then run `flutterfire configure` again so `firebase_options.dart` contains its `databaseURL`. Realtime Database offers only `us-central1`, `europe-west1` and `asia-southeast1`; this project uses `europe-west1`.
+- **Emulator geofence:** the emulator only delivers geofence events while some app is requesting location. The spike's service kept a location stream open; on a real phone this is not an issue.
+- **Callback time:** the callback took 2.5 to 3.3 s (8.9 s on the very first run). Keep it short and put a timeout on the database write (10 s was used).
+- **Starting the service twice** returns `ServiceRequestFailure`; check `FlutterForegroundTask.isRunningService` first.
+
+**Not tested (still open):** a real phone, especially brands with strict battery rules, long runs (hours), and Doze mode. These are tracked in section 12.
+
 ## 8. Packages
 
 Versions are chosen when each package is added (`flutter pub add`) and checked against the current Flutter SDK.
@@ -403,8 +426,8 @@ Rules the developer follows (and expects from any assistant), applied everywhere
 
 | # | Item | Plan |
 |---|---|---|
-| 1 | Writing to Realtime Database from the geofence callback (background isolate) is untested here | Roadmap task 4: a small spike on a real Android phone, before the geofence work |
-| 2 | A foreground service for both roles must survive battery-saving settings on real phones | Same spike; document phone settings if needed |
+| 1 | Writing to Realtime Database from the geofence callback (background isolate) | Verified on an emulator (section 7.5). Check again on a real phone |
+| 2 | A foreground service for both roles must survive battery-saving settings on real phones | Emulator passed for short runs (section 7.5). Test a real phone and for hours; document phone settings if needed |
 | 3 | Role is self-declared and alerts are not checked against the writer (no server) | Accepted for Demo 1; alert check added in Demo 2 (section 6) |
 | 4 | Join-code validation without a server (Demo 2) | Revisit when Demo 2 starts |
 | 5 | Public OpenStreetMap tiles are not for heavy production use | Change tile source before a store release |
