@@ -26,4 +26,24 @@ class RealtimeLocationRepository implements LocationRepository {
       return Left(_errorHandler.handle(e));
     }
   }
+
+  @override
+  Stream<Either<Failure, List<LocationUpdate>>> watchGroup(
+    String groupId,
+  ) async* {
+    try {
+      await for (final event in _database.ref('locations/$groupId').onValue) {
+        yield Right([
+          for (final child in event.snapshot.children)
+            LocationUpdateModel.fromMap(
+              userId: child.key!,
+              groupId: groupId,
+              map: child.value as Map<Object?, Object?>,
+            ).update,
+        ]);
+      }
+    } catch (e) {
+      yield Left(_errorHandler.handle(e));
+    }
+  }
 }

@@ -59,7 +59,7 @@ lib/
       constants/                   app_constants.dart (default group id, zone limits)
       errors/                      failures.dart, exceptions.dart, error_handler.dart
       utils/                       validators.dart
-      interfaces/                  use_case.dart
+      interfaces/                  use_case.dart, stream_use_case.dart (for live data)
     shared/
       models/                      coordinates.dart
       theme/                       app_colors.dart, app_typography.dart, app_theme.dart

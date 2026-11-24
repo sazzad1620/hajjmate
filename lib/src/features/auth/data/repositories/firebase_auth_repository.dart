@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:hajjmate/src/core/constants/app_constants.dart';
 import 'package:hajjmate/src/core/errors/error_handler.dart';
 import 'package:hajjmate/src/core/errors/failures.dart';
 import 'package:hajjmate/src/features/auth/data/datasources/auth_remote_datasource.dart';
@@ -49,7 +50,9 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Future<Either<Failure, User?>> getCurrentUser() async {
     try {
-      final model = await _datasource.getCurrentUser();
+      final model = await _datasource.getCurrentUser().timeout(
+        AppConstants.sessionCheckTimeout,
+      );
       return Right(model?.toEntity());
     } catch (e) {
       return Left(_errorHandler.handle(e));
