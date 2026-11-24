@@ -15,6 +15,7 @@ import 'package:hajjmate/src/features/auth/presentation/bloc/forgot_password_blo
 import 'package:hajjmate/src/features/auth/presentation/bloc/login_bloc.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/sign_out_bloc.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/sign_up_bloc.dart';
+import 'package:hajjmate/src/features/map/presentation/bloc/group_map_bloc.dart';
 import 'package:hajjmate/src/features/splash/presentation/bloc/splash_bloc.dart';
 import 'package:hajjmate/src/features/tracking/data/repositories/realtime_location_repository.dart';
 import 'package:hajjmate/src/features/tracking/data/services/foreground_location_sharing_service.dart';
@@ -25,6 +26,7 @@ import 'package:hajjmate/src/features/tracking/domain/services/location_sharing_
 import 'package:hajjmate/src/features/tracking/domain/usecases/get_sharing_status_use_case.dart';
 import 'package:hajjmate/src/features/tracking/domain/usecases/start_location_sharing_use_case.dart';
 import 'package:hajjmate/src/features/tracking/domain/usecases/stop_location_sharing_use_case.dart';
+import 'package:hajjmate/src/features/tracking/domain/usecases/watch_group_locations_use_case.dart';
 import 'package:hajjmate/src/features/tracking/presentation/bloc/location_sharing_bloc.dart';
 
 final GetIt getIt = GetIt.instance;
@@ -34,6 +36,7 @@ void configureDependencies() {
   _registerCore();
   _registerAuth();
   _registerTracking();
+  _registerMap();
   _registerSplash();
 }
 
@@ -88,6 +91,9 @@ void _registerTracking() {
     ..registerLazySingleton<GetSharingStatusUseCase>(
       () => GetSharingStatusUseCase(getIt()),
     )
+    ..registerLazySingleton<WatchGroupLocationsUseCase>(
+      () => WatchGroupLocationsUseCase(getIt()),
+    )
     ..registerFactory<LocationSharingBloc>(
       () => LocationSharingBloc(
         getIt(),
@@ -97,6 +103,10 @@ void _registerTracking() {
         getIt<LocationSharingService>(),
       ),
     );
+}
+
+void _registerMap() {
+  getIt.registerFactory<GroupMapBloc>(() => GroupMapBloc(getIt(), getIt()));
 }
 
 void _registerSplash() {

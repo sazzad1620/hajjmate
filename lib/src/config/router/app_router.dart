@@ -11,6 +11,9 @@ import 'package:hajjmate/src/features/auth/presentation/screens/screen_sign_up.d
 import 'package:hajjmate/src/features/home/presentation/screens/screen_hajji_home.dart';
 import 'package:hajjmate/src/features/home/presentation/screens/screen_main_shell.dart';
 import 'package:hajjmate/src/features/home/presentation/shell_destination.dart';
+import 'package:hajjmate/src/features/map/presentation/bloc/group_map_bloc.dart';
+import 'package:hajjmate/src/features/map/presentation/bloc/group_map_event.dart';
+import 'package:hajjmate/src/features/map/presentation/screens/screen_leader_map.dart';
 import 'package:hajjmate/src/features/profile/presentation/screens/screen_hajji_profile.dart';
 import 'package:hajjmate/src/features/profile/presentation/screens/screen_leader_more.dart';
 import 'package:hajjmate/src/features/splash/presentation/bloc/splash_bloc.dart';
@@ -62,7 +65,11 @@ GoRouter createAppRouter() {
             routes: [
               GoRoute(
                 path: AppRoutes.leaderMap,
-                builder: (context, state) => const PlaceholderTab(title: 'Map'),
+                builder: (context, state) => BlocProvider(
+                  create: (_) =>
+                      getIt<GroupMapBloc>()..add(const GroupMapStarted()),
+                  child: const ScreenLeaderMap(),
+                ),
               ),
             ],
           ),

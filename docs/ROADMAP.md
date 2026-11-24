@@ -53,7 +53,7 @@
   `LocationUpdate`, `DeviceLocationProvider`, permissions, Hajji publishes location every 30–60 s through the foreground service, `RealtimeLocationRepository`.
   *Done when:* a Hajji's position appears and updates in the database while the app is in the background.
 
-- [ ] **6. Leader live map** `map`
+- [x] **6. Leader live map** `map`
   `flutter_map` with OpenStreetMap, one pin per Hajji, last-update time.
   *Done when:* story 2 passes: pins update at least every 60 s with the time shown.
   *Reference:* field-track `features/locations/presentation/widgets/location_map_preview.dart`.
