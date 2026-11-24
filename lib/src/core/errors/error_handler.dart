@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hajjmate/src/core/errors/exceptions.dart';
 import 'package:hajjmate/src/core/errors/failures.dart';
 
 class ErrorHandler {
   Failure handle(Object error) {
+    if (error is TimeoutException) return const NetworkFailure();
     if (error is FirebaseAuthException) return _fromAuth(error);
     if (error is FirebaseException) return _fromFirebase(error);
     if (error is ProfileNotFoundException) {
