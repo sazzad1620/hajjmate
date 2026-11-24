@@ -41,16 +41,29 @@ class AuthRemoteDatasource {
       email: params.email,
       password: params.password,
     );
+    return _fetchProfile(credential.user!.uid);
+  }
+
+  Future<UserModel?> getCurrentUser() async {
+    // The first event carries the session Firebase restored from the phone.
+    final firebaseUser = await _auth.authStateChanges().first;
+    if (firebaseUser == null) return null;
+    return _fetchProfile(firebaseUser.uid);
+  }
+
+  Future<void> signOut() => _auth.signOut();
+
+  Future<void> sendPasswordReset(ForgotPasswordParams params) {
+    return _auth.sendPasswordResetEmail(email: params.email);
+  }
+
+  Future<UserModel> _fetchProfile(String uid) async {
     final snapshot = await _firestore
         .collection(_usersCollection)
-        .doc(credential.user!.uid)
+        .doc(uid)
         .get();
     final data = snapshot.data();
     if (data == null) throw const ProfileNotFoundException();
     return UserModel.fromMap(snapshot.id, data);
-  }
-
-  Future<void> sendPasswordReset(ForgotPasswordParams params) {
-    return _auth.sendPasswordResetEmail(email: params.email);
   }
 }

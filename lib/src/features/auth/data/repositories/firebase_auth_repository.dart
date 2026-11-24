@@ -45,4 +45,24 @@ class FirebaseAuthRepository implements AuthRepository {
       return Left(_errorHandler.handle(e));
     }
   }
+
+  @override
+  Future<Either<Failure, User?>> getCurrentUser() async {
+    try {
+      final model = await _datasource.getCurrentUser();
+      return Right(model?.toEntity());
+    } catch (e) {
+      return Left(_errorHandler.handle(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> signOut() async {
+    try {
+      await _datasource.signOut();
+      return const Right(unit);
+    } catch (e) {
+      return Left(_errorHandler.handle(e));
+    }
+  }
 }

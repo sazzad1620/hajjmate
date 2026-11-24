@@ -11,4 +11,9 @@ abstract class AuthRepository {
   Future<Either<Failure, User>> signUp(SignUpParams params);
 
   Future<Either<Failure, Unit>> sendPasswordReset(ForgotPasswordParams params);
+
+  /// The right side is null when nobody is signed in.
+  Future<Either<Failure, User?>> getCurrentUser();
+
+  Future<Either<Failure, Unit>> signOut();
 }
