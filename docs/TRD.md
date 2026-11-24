@@ -91,6 +91,7 @@ Each feature contains:
   domain/
     entities/
     repositories/    abstract repository interfaces
+    services/        other abstract interfaces (device location, background service)
     usecases/        one class per action
   presentation/
     bloc/            *_bloc.dart, *_event.dart, *_state.dart
@@ -142,6 +143,8 @@ classDiagram
     }
     class LocationUpdate {
         +String userId
+        +String name
+        +String groupId
         +Coordinates position
         +DateTime timestamp
     }
@@ -179,7 +182,8 @@ Membership is stored **once**, as the `groupId` on each user. `Group` does not k
 | `LocationRepository` | Publish own location, watch group locations | `RealtimeLocationRepository` |
 | `AlertRepository` | Publish alert, watch alerts | `RealtimeAlertRepository` |
 | `TaskRepository` | Tasks and per-Hajji status (Demo 2) | `FirestoreTaskRepository` |
-| `DeviceLocationProvider` | Where the phone's own GPS position comes from | `GeolocatorDeviceLocationProvider` (a no-op version for web) |
+| `DeviceLocationProvider` | Location permission and the phone's own GPS position | `GeolocatorDeviceLocationProvider` (a no-op version for web) |
+| `LocationSharingService` | Start and stop the background service that sends the location | `ForegroundLocationSharingService` |
 | `GeofenceRegistry` | Register zones with the operating system | `NativeGeofenceRegistry` |
 | `Notifier` | Show a notification | `LocalNotifier` |
 

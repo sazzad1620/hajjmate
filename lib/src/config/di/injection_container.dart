@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hajjmate/src/core/errors/error_handler.dart';
 import 'package:hajjmate/src/features/auth/data/datasources/auth_remote_datasource.dart';
@@ -15,6 +16,16 @@ import 'package:hajjmate/src/features/auth/presentation/bloc/login_bloc.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/sign_out_bloc.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/sign_up_bloc.dart';
 import 'package:hajjmate/src/features/splash/presentation/bloc/splash_bloc.dart';
+import 'package:hajjmate/src/features/tracking/data/repositories/realtime_location_repository.dart';
+import 'package:hajjmate/src/features/tracking/data/services/foreground_location_sharing_service.dart';
+import 'package:hajjmate/src/features/tracking/data/services/geolocator_device_location_provider.dart';
+import 'package:hajjmate/src/features/tracking/domain/repositories/location_repository.dart';
+import 'package:hajjmate/src/features/tracking/domain/services/device_location_provider.dart';
+import 'package:hajjmate/src/features/tracking/domain/services/location_sharing_service.dart';
+import 'package:hajjmate/src/features/tracking/domain/usecases/get_sharing_status_use_case.dart';
+import 'package:hajjmate/src/features/tracking/domain/usecases/start_location_sharing_use_case.dart';
+import 'package:hajjmate/src/features/tracking/domain/usecases/stop_location_sharing_use_case.dart';
+import 'package:hajjmate/src/features/tracking/presentation/bloc/location_sharing_bloc.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -22,6 +33,7 @@ final GetIt getIt = GetIt.instance;
 void configureDependencies() {
   _registerCore();
   _registerAuth();
+  _registerTracking();
   _registerSplash();
 }
 
@@ -29,6 +41,7 @@ void _registerCore() {
   getIt
     ..registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance)
     ..registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance)
+    ..registerLazySingleton<FirebaseDatabase>(() => FirebaseDatabase.instance)
     ..registerLazySingleton<ErrorHandler>(ErrorHandler.new);
 }
 
@@ -53,6 +66,37 @@ void _registerAuth() {
     ..registerFactory<SignUpBloc>(() => SignUpBloc(getIt()))
     ..registerFactory<ForgotPasswordBloc>(() => ForgotPasswordBloc(getIt()))
     ..registerFactory<SignOutBloc>(() => SignOutBloc(getIt()));
+}
+
+void _registerTracking() {
+  getIt
+    ..registerLazySingleton<DeviceLocationProvider>(
+      GeolocatorDeviceLocationProvider.new,
+    )
+    ..registerLazySingleton<LocationSharingService>(
+      ForegroundLocationSharingService.new,
+    )
+    ..registerLazySingleton<LocationRepository>(
+      () => RealtimeLocationRepository(getIt(), getIt()),
+    )
+    ..registerLazySingleton<StartLocationSharingUseCase>(
+      () => StartLocationSharingUseCase(getIt(), getIt()),
+    )
+    ..registerLazySingleton<StopLocationSharingUseCase>(
+      () => StopLocationSharingUseCase(getIt()),
+    )
+    ..registerLazySingleton<GetSharingStatusUseCase>(
+      () => GetSharingStatusUseCase(getIt()),
+    )
+    ..registerFactory<LocationSharingBloc>(
+      () => LocationSharingBloc(
+        getIt(),
+        getIt(),
+        getIt(),
+        getIt(),
+        getIt<LocationSharingService>(),
+      ),
+    );
 }
 
 void _registerSplash() {

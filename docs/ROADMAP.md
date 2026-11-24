@@ -49,7 +49,7 @@
   *Done when:* the result is written into TRD §12 (works, or what to change). **If it fails, the plan below is revised before going further.**
   *Reference:* field-track `features/geofence/geofence_callback.dart`, `data/native_geofence_registry.dart`.
 
-- [ ] **5. Location sharing** `location`
+- [x] **5. Location sharing** `location`
   `LocationUpdate`, `DeviceLocationProvider`, permissions, Hajji publishes location every 30–60 s through the foreground service, `RealtimeLocationRepository`.
   *Done when:* a Hajji's position appears and updates in the database while the app is in the background.
 
@@ -123,7 +123,7 @@
 
 Tasks that appear while building are added here (with the reason), instead of being hidden.
 
-- [ ] **Home shells** `core` (to do before task 5)
+- [x] **Home shells** `core` (to do before task 5)
   Replace the two temporary home screens with the real navigation from DESIGN §3: a bottom bar for the Leader (`Map | Zones | Alerts | More`) and for the Hajji (`Home | Map | Profile`; `Tasks` comes in Demo 2). Each tab is an empty screen with a title for now, and Sign out moves into More (Leader) and Profile (Hajji).
   *Why added:* the first plan had no task for the app's navigation structure, so the first real screens would have been bolted onto temporary pages. Doing it once, now, gives every later task its place.
   *Done when:* both roles open to their bottom bar, every tab opens, and Sign out works from More or Profile.
