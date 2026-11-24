@@ -30,19 +30,19 @@
 
 ## Demo 1: single group, core tracking (stories 1 to 5)
 
-- [ ] **1. Core skeleton** `core`
+- [x] **1. Core skeleton** `core`
   Folder structure from TRD §3, theme (Anek Bangla font bundled in assets), `go_router` shell, `get_it` file, `Failure` hierarchy, `UseCase`, constants (default group id, zone limits), and the shared `Coordinates` class (with `distanceTo`).
   *Done when:* the app starts on an empty home screen through the new structure, the `Coordinates` test passes and `flutter analyze` is clean.
   *Reference:* retailer `core/errors/failures.dart`, `core/interfaces/interface_use_case.dart`; field-track `core/di/injection.dart`.
 
 - [ ] **2. Email login** `auth`
-  `User` → `Leader`, `Hajji` and `UserFactory`, `AuthRepository`, use cases, `FirebaseAuthRepository`, `LoginBloc`, login and sign-up screen, `users` document.
-  *Done when:* a user can sign up and sign in with email and the user document is saved.
+  `User` → `Leader`, `Hajji` and `UserFactory`, `AuthRepository`, use cases, `FirebaseAuthRepository`, `LoginBloc`, login screen, sign-up with two buttons ("Sign up as Leader" and "Sign up as Hajji"), `users` document with the role.
+  *Done when:* a user can sign up as a Leader or a Hajji and sign in with email, and the user document is saved with the role.
   *Reference:* retailer `features/auth/` (entities, use case, repository impl, bloc) and its use case tests.
 
-- [ ] **3. Google sign-in, role and routing** `auth`
-  Google Sign-In, role selection on first sign-in, session restore, role-based redirect (leader home vs Hajji home).
-  *Done when:* story 1 passes: role saved on first sign-in and the user stays signed in after restart.
+- [ ] **3. Session restore and role routing** `auth`
+  Session restore on app start, role-based redirect after sign-in (leader home vs Hajji home).
+  *Done when:* story 1 passes: the role is saved at sign-up, each role lands on its own home, and the user stays signed in after restart.
 
 - [ ] **4. Background spike** `geofence`
   Throw-away experiment on a real Android phone: foreground service stays alive, a `native_geofence` callback runs in the background and writes to Realtime Database. Done on a local branch that is never pushed; only the result is committed.
@@ -114,6 +114,10 @@
 - [ ] **19. Final docs and release check** `core`
   README with screenshots and setup, docs updated to match the code, release build runs. Tag `demo-2`.
   *Done when:* a new person can clone, set up and run the app from the README.
+
+## Backlog (not scheduled, can be picked up inside any task)
+
+- **Google Sign-In** `auth`: sign in with Google, and ask "Leader or Hajji?" the first time a Google user signs in (there is no sign-up step for Google). Left out of the first pass because email and password already cover story 1.
 
 ## Added during work
 
