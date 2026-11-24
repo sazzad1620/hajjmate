@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "348278121071",
+    "firebase_url": "https://hajjmate-app-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "hajjmate-app",
     "storage_bucket": "hajjmate-app.firebasestorage.app"
   },

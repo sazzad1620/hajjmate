@@ -26,5 +26,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:348278121071:ios:e6b804a0ed48371b12239a</string>
+	<key>DATABASE_URL</key>
+	<string>https://hajjmate-app-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>
 </plist>

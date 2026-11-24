@@ -52,6 +52,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '348278121071',
     projectId: 'hajjmate-app',
     authDomain: 'hajjmate-app.firebaseapp.com',
+    databaseURL: 'https://hajjmate-app-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'hajjmate-app.firebasestorage.app',
   );
 
@@ -60,14 +61,15 @@ class DefaultFirebaseOptions {
     appId: '1:348278121071:android:c4aa05b5d84a3ab612239a',
     messagingSenderId: '348278121071',
     projectId: 'hajjmate-app',
+    databaseURL: 'https://hajjmate-app-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'hajjmate-app.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCQ9edg86kEwn8LI6TfJCpRtAhizxhZU-s',
     appId: '1:348278121071:ios:e6b804a0ed48371b12239a',
     messagingSenderId: '348278121071',
     projectId: 'hajjmate-app',
+    databaseURL: 'https://hajjmate-app-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'hajjmate-app.firebasestorage.app',
     iosBundleId: 'com.sazzad.hajjmate',
   );
