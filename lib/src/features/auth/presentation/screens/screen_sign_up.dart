@@ -60,7 +60,9 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
       body: SafeArea(
         child: BlocConsumer<SignUpBloc, SignUpState>(
           listener: (context, state) {
-            if (state is SignUpSuccess) context.go(AppRoutes.home);
+            if (state is SignUpSuccess) {
+              context.go(AppRoutes.homeFor(state.user.role));
+            }
             if (state is SignUpFailure) showAppToast(context, state.message);
           },
           builder: (context, state) {

@@ -35,14 +35,14 @@
   *Done when:* the app starts on an empty home screen through the new structure, the `Coordinates` test passes and `flutter analyze` is clean.
   *Reference:* retailer `core/errors/failures.dart`, `core/interfaces/interface_use_case.dart`; field-track `core/di/injection.dart`.
 
-- [ ] **2. Email login** `auth`
+- [x] **2. Email login** `auth`
   `User` → `Leader`, `Hajji` and `UserFactory`, `AuthRepository`, use cases, `FirebaseAuthRepository`, `LoginBloc`, login screen, sign-up with two buttons ("Sign up as Leader" and "Sign up as Hajji"), `users` document with the role.
   *Done when:* a user can sign up as a Leader or a Hajji and sign in with email, and the user document is saved with the role.
   *Reference:* retailer `features/auth/` (entities, use case, repository impl, bloc) and its use case tests.
 
-- [ ] **3. Session restore and role routing** `auth`
-  Session restore on app start, role-based redirect after sign-in (leader home vs Hajji home).
-  *Done when:* story 1 passes: the role is saved at sign-up, each role lands on its own home, and the user stays signed in after restart.
+- [x] **3. Session restore and role routing** `auth`
+  Splash that restores the session on app start, role-based redirect after sign-in (leader home vs Hajji home), sign out. The two home screens are temporary placeholders (title and a sign-out button) that later tasks replace.
+  *Done when:* story 1 passes: the role is saved at sign-up, each role lands on its own home, the user stays signed in after restart, and sign out returns to login.
 
 - [ ] **4. Background spike** `geofence`
   Throw-away experiment on a real Android phone: foreground service stays alive, a `native_geofence` callback runs in the background and writes to Realtime Database. Done on a local branch that is never pushed; only the result is committed.

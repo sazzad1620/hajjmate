@@ -51,7 +51,9 @@ class _ScreenLoginState extends State<ScreenLogin> {
       body: SafeArea(
         child: BlocConsumer<LoginBloc, LoginState>(
           listener: (context, state) {
-            if (state is LoginSuccess) context.go(AppRoutes.home);
+            if (state is LoginSuccess) {
+              context.go(AppRoutes.homeFor(state.user.role));
+            }
             if (state is LoginFailure) showAppToast(context, state.message);
           },
           builder: (context, state) {

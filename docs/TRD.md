@@ -66,6 +66,8 @@ lib/
       widgets/                     buttons/, inputfields/, toast/ (shared UI)
     features/
       auth/        data/ domain/ presentation/
+      splash/      presentation/                   (session check at app start)
+      home/        presentation/                   (role home screens)
       map/         data/ domain/ presentation/     (live group map)
       zones/       data/ domain/ presentation/     (zone CRUD and geofence registration)
       alerts/      data/ domain/ presentation/     (geofence callback, notifications, alert list)
