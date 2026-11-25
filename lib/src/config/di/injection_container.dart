@@ -29,7 +29,13 @@ import 'package:hajjmate/src/features/tracking/domain/usecases/stop_location_sha
 import 'package:hajjmate/src/features/tracking/domain/usecases/watch_group_locations_use_case.dart';
 import 'package:hajjmate/src/features/tracking/presentation/bloc/location_sharing_bloc.dart';
 import 'package:hajjmate/src/features/zones/data/repositories/firestore_zone_repository.dart';
+import 'package:hajjmate/src/features/zones/data/services/native_geofence_registry.dart';
 import 'package:hajjmate/src/features/zones/domain/repositories/zone_repository.dart';
+import 'package:hajjmate/src/features/zones/domain/services/geofence_registry.dart';
+import 'package:hajjmate/src/features/zones/domain/usecases/clear_geofences_use_case.dart';
+import 'package:hajjmate/src/features/zones/domain/usecases/request_geofence_permission_use_case.dart';
+import 'package:hajjmate/src/features/zones/domain/usecases/sync_geofences_use_case.dart';
+import 'package:hajjmate/src/features/zones/presentation/bloc/geofence_sync_bloc.dart';
 import 'package:hajjmate/src/features/zones/domain/usecases/create_zone_use_case.dart';
 import 'package:hajjmate/src/features/zones/domain/usecases/delete_zone_use_case.dart';
 import 'package:hajjmate/src/features/zones/domain/usecases/update_zone_use_case.dart';
@@ -127,6 +133,21 @@ void _registerZones() {
     ..registerLazySingleton<CreateZoneUseCase>(() => CreateZoneUseCase(getIt()))
     ..registerLazySingleton<UpdateZoneUseCase>(() => UpdateZoneUseCase(getIt()))
     ..registerLazySingleton<DeleteZoneUseCase>(() => DeleteZoneUseCase(getIt()))
+    ..registerLazySingleton<GeofenceRegistry>(
+      () => NativeGeofenceRegistry(getIt()),
+    )
+    ..registerLazySingleton<SyncGeofencesUseCase>(
+      () => SyncGeofencesUseCase(getIt()),
+    )
+    ..registerLazySingleton<ClearGeofencesUseCase>(
+      () => ClearGeofencesUseCase(getIt()),
+    )
+    ..registerLazySingleton<RequestGeofencePermissionUseCase>(
+      () => RequestGeofencePermissionUseCase(getIt()),
+    )
+    ..registerFactory<GeofenceSyncBloc>(
+      () => GeofenceSyncBloc(getIt(), getIt(), getIt(), getIt(), getIt()),
+    )
     ..registerFactory<ZoneListBloc>(() => ZoneListBloc(getIt(), getIt()))
     ..registerFactory<ZoneFormBloc>(
       () => ZoneFormBloc(getIt(), getIt(), getIt(), getIt(), getIt()),

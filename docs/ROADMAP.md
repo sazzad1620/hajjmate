@@ -67,7 +67,7 @@
   Edit name and radius, delete, zones drawn on the leader's and the Hajji's map.
   *Done when:* story 3 passes.
 
-- [ ] **9. Geofence registration** `geofence`
+- [x] **9. Geofence registration** `geofence`
   `GeofenceRegistry` / `NativeGeofenceRegistry` registers the zones on the Hajji's phone and re-syncs when zones change.
   *Done when:* adding, editing or deleting a zone updates the phone's registered geofences.
 

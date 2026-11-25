@@ -20,6 +20,8 @@ import 'package:hajjmate/src/features/profile/presentation/screens/screen_leader
 import 'package:hajjmate/src/features/splash/presentation/bloc/splash_bloc.dart';
 import 'package:hajjmate/src/features/tracking/presentation/bloc/location_sharing_bloc.dart';
 import 'package:hajjmate/src/features/zones/domain/entities/zone.dart';
+import 'package:hajjmate/src/features/zones/presentation/bloc/geofence_sync_bloc.dart';
+import 'package:hajjmate/src/features/zones/presentation/bloc/geofence_sync_event.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/zone_form_bloc.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/zone_form_event.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/zone_list_bloc.dart';
@@ -139,9 +141,13 @@ GoRouter createAppRouter() {
         ],
       ),
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) => ScreenMainShell(
-          navigationShell: navigationShell,
-          destinations: ShellDestination.hajji,
+        builder: (context, state, navigationShell) => BlocProvider(
+          create: (_) =>
+              getIt<GeofenceSyncBloc>()..add(const GeofenceSyncStarted()),
+          child: ScreenMainShell(
+            navigationShell: navigationShell,
+            destinations: ShellDestination.hajji,
+          ),
         ),
         branches: [
           StatefulShellBranch(
