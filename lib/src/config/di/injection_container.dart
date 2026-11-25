@@ -30,7 +30,9 @@ import 'package:hajjmate/src/features/tracking/domain/usecases/watch_group_locat
 import 'package:hajjmate/src/features/tracking/presentation/bloc/location_sharing_bloc.dart';
 import 'package:hajjmate/src/features/zones/data/repositories/firestore_zone_repository.dart';
 import 'package:hajjmate/src/features/zones/data/services/native_geofence_registry.dart';
+import 'package:hajjmate/src/features/zones/data/services/shared_preferences_geofence_context_store.dart';
 import 'package:hajjmate/src/features/zones/domain/repositories/zone_repository.dart';
+import 'package:hajjmate/src/features/zones/domain/services/geofence_context_store.dart';
 import 'package:hajjmate/src/features/zones/domain/services/geofence_registry.dart';
 import 'package:hajjmate/src/features/zones/domain/usecases/clear_geofences_use_case.dart';
 import 'package:hajjmate/src/features/zones/domain/usecases/request_geofence_permission_use_case.dart';
@@ -83,7 +85,7 @@ void _registerAuth() {
     ..registerFactory<LoginBloc>(() => LoginBloc(getIt()))
     ..registerFactory<SignUpBloc>(() => SignUpBloc(getIt()))
     ..registerFactory<ForgotPasswordBloc>(() => ForgotPasswordBloc(getIt()))
-    ..registerFactory<SignOutBloc>(() => SignOutBloc(getIt()));
+    ..registerFactory<SignOutBloc>(() => SignOutBloc(getIt(), getIt()));
 }
 
 void _registerTracking() {
@@ -136,17 +138,20 @@ void _registerZones() {
     ..registerLazySingleton<GeofenceRegistry>(
       () => NativeGeofenceRegistry(getIt()),
     )
+    ..registerLazySingleton<GeofenceContextStore>(
+      SharedPreferencesGeofenceContextStore.new,
+    )
     ..registerLazySingleton<SyncGeofencesUseCase>(
-      () => SyncGeofencesUseCase(getIt()),
+      () => SyncGeofencesUseCase(getIt(), getIt()),
     )
     ..registerLazySingleton<ClearGeofencesUseCase>(
-      () => ClearGeofencesUseCase(getIt()),
+      () => ClearGeofencesUseCase(getIt(), getIt()),
     )
     ..registerLazySingleton<RequestGeofencePermissionUseCase>(
       () => RequestGeofencePermissionUseCase(getIt()),
     )
     ..registerFactory<GeofenceSyncBloc>(
-      () => GeofenceSyncBloc(getIt(), getIt(), getIt(), getIt(), getIt()),
+      () => GeofenceSyncBloc(getIt(), getIt(), getIt(), getIt()),
     )
     ..registerFactory<ZoneListBloc>(() => ZoneListBloc(getIt(), getIt()))
     ..registerFactory<ZoneFormBloc>(

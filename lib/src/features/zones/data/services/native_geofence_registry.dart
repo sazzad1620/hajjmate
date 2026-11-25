@@ -78,8 +78,7 @@ class NativeGeofenceRegistry implements GeofenceRegistry {
     return status.isGranted;
   }
 
-  // No initial trigger: a zone created around a Hajji who already stands
-  // inside it must not send an alert.
+  // A Hajji who already stands inside a new zone gets an enter alert at once.
   ng.Geofence _geofenceOf(Zone zone) {
     return ng.Geofence(
       id: zone.id,
@@ -89,9 +88,9 @@ class NativeGeofenceRegistry implements GeofenceRegistry {
       ),
       radiusMeters: zone.radiusM,
       triggers: {ng.GeofenceEvent.enter, ng.GeofenceEvent.exit},
-      iosSettings: const ng.IosGeofenceSettings(initialTrigger: false),
+      iosSettings: const ng.IosGeofenceSettings(initialTrigger: true),
       androidSettings: const ng.AndroidGeofenceSettings(
-        initialTriggers: {},
+        initialTriggers: {ng.GeofenceEvent.enter},
         notificationResponsiveness: Duration(seconds: 30),
       ),
     );

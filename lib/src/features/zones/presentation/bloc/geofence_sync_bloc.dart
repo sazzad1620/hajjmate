@@ -1,9 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hajjmate/src/core/errors/failures.dart';
+import 'package:hajjmate/src/features/auth/domain/entities/user.dart';
 import 'package:hajjmate/src/features/auth/domain/usecases/get_current_user_use_case.dart';
+import 'package:hajjmate/src/features/zones/domain/entities/sync_geofences_params.dart';
 import 'package:hajjmate/src/features/zones/domain/entities/watch_zones_params.dart';
 import 'package:hajjmate/src/features/zones/domain/entities/zone.dart';
-import 'package:hajjmate/src/features/zones/domain/usecases/clear_geofences_use_case.dart';
 import 'package:hajjmate/src/features/zones/domain/usecases/request_geofence_permission_use_case.dart';
 import 'package:hajjmate/src/features/zones/domain/usecases/sync_geofences_use_case.dart';
 import 'package:hajjmate/src/features/zones/domain/usecases/watch_zones_use_case.dart';
@@ -16,16 +17,15 @@ class GeofenceSyncBloc extends Bloc<GeofenceSyncEvent, GeofenceSyncState> {
   final GetCurrentUserUseCase _getCurrentUser;
   final WatchZonesUseCase _watchZones;
   final SyncGeofencesUseCase _sync;
-  final ClearGeofencesUseCase _clear;
   final RequestGeofencePermissionUseCase _requestPermission;
 
+  User? _user;
   List<Zone> _zones = const [];
 
   GeofenceSyncBloc(
     this._getCurrentUser,
     this._watchZones,
     this._sync,
-    this._clear,
     this._requestPermission,
   ) : super(const GeofenceSyncState()) {
     on<GeofenceSyncStarted>(_onStarted);
@@ -48,6 +48,7 @@ class GeofenceSyncBloc extends Bloc<GeofenceSyncEvent, GeofenceSyncState> {
       );
       return;
     }
+    _user = user;
 
     await for (final result in _watchZones.execute(
       WatchZonesParams(groupId: user.groupId),
@@ -78,7 +79,17 @@ class GeofenceSyncBloc extends Bloc<GeofenceSyncEvent, GeofenceSyncState> {
   }
 
   Future<void> _syncNow(Emitter<GeofenceSyncState> emit) async {
-    final result = await _sync.execute(_zones);
+    final user = _user;
+    if (user == null) return;
+
+    final result = await _sync.execute(
+      SyncGeofencesParams(
+        userId: user.id,
+        userName: user.name,
+        groupId: user.groupId,
+        zones: _zones,
+      ),
+    );
     if (emit.isDone) return;
     emit(
       result.fold(
@@ -94,13 +105,5 @@ class GeofenceSyncBloc extends Bloc<GeofenceSyncEvent, GeofenceSyncState> {
         ),
       ),
     );
-  }
-
-  // The bloc lives as long as the Hajji is signed in, so closing it means
-  // signing out: the next user of this phone must not inherit the zones.
-  @override
-  Future<void> close() async {
-    await _clear.execute(const NoParams());
-    return super.close();
   }
 }

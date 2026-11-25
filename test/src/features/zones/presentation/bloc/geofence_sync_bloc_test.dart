@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hajjmate/src/core/errors/failures.dart';
 import 'package:hajjmate/src/features/auth/domain/entities/hajji.dart';
 import 'package:hajjmate/src/features/auth/domain/usecases/get_current_user_use_case.dart';
+import 'package:hajjmate/src/features/zones/domain/entities/sync_geofences_params.dart';
 import 'package:hajjmate/src/features/zones/domain/entities/watch_zones_params.dart';
 import 'package:hajjmate/src/features/zones/domain/entities/zone.dart';
-import 'package:hajjmate/src/features/zones/domain/usecases/clear_geofences_use_case.dart';
 import 'package:hajjmate/src/features/zones/domain/usecases/request_geofence_permission_use_case.dart';
 import 'package:hajjmate/src/features/zones/domain/usecases/sync_geofences_use_case.dart';
 import 'package:hajjmate/src/features/zones/domain/usecases/watch_zones_use_case.dart';
@@ -22,8 +22,6 @@ class MockWatchZones extends Mock implements WatchZonesUseCase {}
 
 class MockSync extends Mock implements SyncGeofencesUseCase {}
 
-class MockClear extends Mock implements ClearGeofencesUseCase {}
-
 class MockRequestPermission extends Mock
     implements RequestGeofencePermissionUseCase {}
 
@@ -31,7 +29,6 @@ void main() {
   late MockGetCurrentUser getCurrentUser;
   late MockWatchZones watchZones;
   late MockSync sync;
-  late MockClear clear;
   late MockRequestPermission requestPermission;
   late GeofenceSyncBloc bloc;
 
@@ -46,14 +43,20 @@ void main() {
   setUpAll(() {
     registerFallbackValue(const NoParams());
     registerFallbackValue(const WatchZonesParams(groupId: 'default'));
-    registerFallbackValue(<Zone>[]);
+    registerFallbackValue(
+      const SyncGeofencesParams(
+        userId: 'u1',
+        userName: 'Rahim',
+        groupId: 'default',
+        zones: [],
+      ),
+    );
   });
 
   setUp(() {
     getCurrentUser = MockGetCurrentUser();
     watchZones = MockWatchZones();
     sync = MockSync();
-    clear = MockClear();
     requestPermission = MockRequestPermission();
     when(() => getCurrentUser.execute(any())).thenAnswer(
       (_) async => const Right(
@@ -66,12 +69,10 @@ void main() {
         ),
       ),
     );
-    when(() => clear.execute(any())).thenAnswer((_) async => const Right(unit));
     bloc = GeofenceSyncBloc(
       getCurrentUser,
       watchZones,
       sync,
-      clear,
       requestPermission,
     );
   });
@@ -96,7 +97,16 @@ void main() {
           ),
         ),
       );
-      verify(() => sync.execute([zone])).called(1);
+      verify(
+        () => sync.execute(
+          SyncGeofencesParams(
+            userId: 'u1',
+            userName: 'Rahim',
+            groupId: 'default',
+            zones: [zone],
+          ),
+        ),
+      ).called(1);
     });
 
     test('asks for permission when "all the time" is missing', () async {
@@ -118,12 +128,6 @@ void main() {
           ),
         ),
       );
-    });
-
-    test('clears every geofence when it is closed', () async {
-      await bloc.close();
-
-      verify(() => clear.execute(any())).called(1);
     });
   });
 }
