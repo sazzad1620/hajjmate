@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-/// What the geofence callback needs to know: it runs on its own and only
-/// receives the id of a zone.
+// What the geofence callback needs to know: it runs on its own and only
+// receives the id of a zone.
 class GeofenceContext extends Equatable {
   final String userId;
   final String userName;

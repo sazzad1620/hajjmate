@@ -5,8 +5,6 @@ import 'package:hajjmate/src/features/zones/presentation/bloc/geofence_sync_even
 import 'package:hajjmate/src/features/zones/presentation/bloc/geofence_sync_state.dart';
 import 'package:hajjmate/src/shared/widgets/buttons/base_button.dart';
 
-/// Shown while the phone may not use location in the background, which zone
-/// alerts need.
 class GeofencePermissionBanner extends StatefulWidget {
   const GeofencePermissionBanner({super.key});
 

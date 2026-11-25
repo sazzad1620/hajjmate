@@ -8,11 +8,10 @@ enum ZoneFormStatus { editing, submitting, success, failure }
 class ZoneFormState extends Equatable {
   final Coordinates? centre;
 
-  /// Where the map opens: the phone's position, or the centre of the zone
-  /// being edited. Not the centre of a new zone.
+  // Where the map opens: the phone's position, or the centre of the zone
+  // being edited. Not the centre of a new zone.
   final Coordinates? startPosition;
 
-  /// The zone being edited, or null when a new one is created.
   final Zone? editingZone;
   final double radiusM;
   final ZoneFormStatus status;

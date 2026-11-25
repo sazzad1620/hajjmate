@@ -9,7 +9,7 @@ class Zone extends Equatable {
   final Coordinates _centre;
   final double _radiusM;
 
-  /// Throws [ArgumentError] when the name is blank or the radius is too small.
+  // Throws [ArgumentError] when the name is blank or the radius is too small.
   Zone({
     required this.id,
     required this.groupId,
@@ -34,7 +34,7 @@ class Zone extends Equatable {
 
   double get radiusM => _radiusM;
 
-  /// A point exactly on the edge counts as inside.
+  // A point exactly on the edge counts as inside.
   bool contains(Coordinates point) => _centre.distanceTo(point) <= _radiusM;
 
   @override

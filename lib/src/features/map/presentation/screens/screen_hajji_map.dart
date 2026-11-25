@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hajjmate/src/features/map/presentation/bloc/own_position_bloc.dart';
+import 'package:hajjmate/src/features/map/presentation/bloc/own_position_state.dart';
 import 'package:hajjmate/src/features/map/presentation/widgets/group_map.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/geofence_sync_bloc.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/geofence_sync_state.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/zone_list_bloc.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/zone_list_state.dart';
 
-/// The Hajji sees the zones only, not where the other Hajjis are.
+// The Hajji sees the zones and themself, not where the other Hajjis are.
 class ScreenHajjiMap extends StatelessWidget {
   const ScreenHajjiMap({super.key});
 
@@ -37,7 +39,10 @@ class ScreenHajjiMap extends StatelessWidget {
         builder: (context, state) {
           return Stack(
             children: [
-              GroupMap(zones: state.zones),
+              BlocBuilder<OwnPositionBloc, OwnPositionState>(
+                builder: (context, own) =>
+                    GroupMap(zones: state.zones, ownPosition: own.position),
+              ),
               SafeArea(
                 child: Align(
                   alignment: Alignment.topCenter,

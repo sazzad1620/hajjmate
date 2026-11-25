@@ -12,9 +12,9 @@ import 'package:hajjmate/src/features/zones/data/services/shared_preferences_geo
 import 'package:hajjmate/src/shared/models/coordinates.dart';
 import 'package:native_geofence/native_geofence.dart';
 
-/// Runs when the phone enters or leaves a zone, even in the background.
-/// It has its own isolate, where `get_it` is not set up, so it builds the few
-/// objects it needs itself.
+// Runs when the phone enters or leaves a zone, even in the background.
+// It has its own isolate, where `get_it` is not set up, so it builds the few
+// objects it needs itself.
 @pragma('vm:entry-point')
 Future<void> onGeofenceTriggered(GeofenceCallbackParams params) async {
   final AlertType type;

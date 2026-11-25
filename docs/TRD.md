@@ -395,7 +395,7 @@ Rules the developer follows (and expects from any assistant), applied everywhere
 
 ### 10.2 Coding conventions
 
-**Comments:** keep them to a minimum: one short comment, just long enough to understand. Good names make the code say *what* it does; a comment is only for *why*: a workaround, a platform limit, a surprising condition or a business rule that the code cannot show. No comment that repeats the code. A one-line doc comment on a public interface is fine when its name alone is not clear.
+**Comments:** keep them to a minimum: one short comment, just long enough to understand. Good names make the code say *what* it does; a comment is only for *why*: a workaround, a platform limit, a surprising condition or a business rule that the code cannot show. No comment that repeats the code. Always use plain `//`, never `///`. A one-line comment above a public interface method is fine when its name alone is not clear.
 
 **Naming**
 - Files `snake_case`, classes `PascalCase`, variables and methods `camelCase`.

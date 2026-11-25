@@ -5,6 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 class GeolocatorDeviceLocationProvider implements DeviceLocationProvider {
   static const Duration _positionTimeout = Duration(seconds: 20);
+  static const int _minMoveM = 5;
 
   @override
   Future<bool> requestPermissions() async {
@@ -26,6 +27,21 @@ class GeolocatorDeviceLocationProvider implements DeviceLocationProvider {
     return Coordinates(
       latitude: position.latitude,
       longitude: position.longitude,
+    );
+  }
+
+  @override
+  Stream<Coordinates> watchPosition() {
+    return Geolocator.getPositionStream(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: _minMoveM,
+      ),
+    ).map(
+      (position) => Coordinates(
+        latitude: position.latitude,
+        longitude: position.longitude,
+      ),
     );
   }
 }

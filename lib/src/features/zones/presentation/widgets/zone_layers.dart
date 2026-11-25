@@ -3,7 +3,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:hajjmate/src/features/zones/domain/entities/zone.dart';
 import 'package:latlong2/latlong.dart';
 
-/// The map layers that draw [zones]: a circle for each and its name.
 List<Widget> zoneLayers(BuildContext context, List<Zone> zones) {
   if (zones.isEmpty) return const [];
   final colors = Theme.of(context).colorScheme;

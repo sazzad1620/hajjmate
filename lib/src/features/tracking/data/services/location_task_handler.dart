@@ -22,8 +22,8 @@ void locationServiceCallback() {
   FlutterForegroundTask.setTaskHandler(LocationTaskHandler());
 }
 
-/// Runs in its own isolate, where `get_it` is not set up, so it builds the
-/// few objects it needs itself.
+// Runs in its own isolate, where `get_it` is not set up, so it builds the
+// few objects it needs itself.
 class LocationTaskHandler extends TaskHandler {
   late final DeviceLocationProvider _locationProvider;
   late final PublishLocationUseCase _publishLocation;

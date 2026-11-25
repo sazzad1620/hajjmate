@@ -21,7 +21,6 @@ class AuthRemoteDatasource {
       password: params.password,
     );
     final model = UserModel(
-      // Firebase returns a user whenever creating the account succeeds.
       id: credential.user!.uid,
       name: params.name,
       phone: params.phone,

@@ -5,7 +5,6 @@ enum GeofenceSyncStatus { syncing, active, permissionMissing, failure }
 class GeofenceSyncState extends Equatable {
   final GeofenceSyncStatus status;
 
-  /// How many geofences the phone has registered.
   final int registeredCount;
   final String? message;
 

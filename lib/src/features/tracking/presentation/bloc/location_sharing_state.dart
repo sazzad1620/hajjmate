@@ -13,7 +13,7 @@ class LocationSharingState extends Equatable {
     this.message,
   });
 
-  /// `message` is replaced on every copy, so an old error never lingers.
+  // `message` is replaced on every copy, so an old error never lingers.
   LocationSharingState copyWith({
     SharingStatus? status,
     DateTime? lastSentAt,

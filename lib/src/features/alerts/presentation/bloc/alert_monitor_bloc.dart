@@ -6,7 +6,6 @@ import 'package:hajjmate/src/features/alerts/presentation/bloc/alert_monitor_sta
 import 'package:hajjmate/src/features/auth/domain/usecases/get_current_user_use_case.dart';
 import 'package:hajjmate/src/shared/models/no_params.dart';
 
-/// Starts the background alert listener as soon as the leader is signed in.
 class AlertMonitorBloc extends Bloc<AlertMonitorEvent, AlertMonitorState> {
   final GetCurrentUserUseCase _getCurrentUser;
   final StartAlertMonitoringUseCase _start;

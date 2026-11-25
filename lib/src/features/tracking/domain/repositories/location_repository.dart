@@ -5,6 +5,6 @@ import 'package:hajjmate/src/features/tracking/domain/entities/location_update.d
 abstract class LocationRepository {
   Future<Either<Failure, Unit>> publish(LocationUpdate update);
 
-  /// The latest location of every member, emitted again on each change.
+  // The latest location of every member, emitted again on each change.
   Stream<Either<Failure, List<LocationUpdate>>> watchGroup(String groupId);
 }

@@ -9,7 +9,7 @@ abstract class ZoneFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// With a [zone] the form edits it, without one it creates a new zone.
+// With a [zone] the form edits it, without one it creates a new zone.
 class ZoneFormStarted extends ZoneFormEvent {
   final Zone? zone;
 

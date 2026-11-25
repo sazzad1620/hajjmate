@@ -17,7 +17,6 @@ import 'package:hajjmate/src/shared/widgets/toast/app_toast.dart';
 import 'package:latlong2/latlong.dart';
 
 class ScreenZoneForm extends StatefulWidget {
-  /// The zone to edit, or null to create a new one.
   final Zone? zone;
 
   const ScreenZoneForm({super.key, this.zone});

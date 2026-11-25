@@ -20,8 +20,8 @@ void alertServiceCallback() {
   FlutterForegroundTask.setTaskHandler(AlertTaskHandler());
 }
 
-/// Runs in its own isolate, where `get_it` is not set up, so it builds the
-/// few objects it needs itself.
+// Runs in its own isolate, where `get_it` is not set up, so it builds the
+// few objects it needs itself.
 class AlertTaskHandler extends TaskHandler {
   final LocalNotifier _notifier = LocalNotifier();
   StreamSubscription<Either<Failure, Alert>>? _subscription;

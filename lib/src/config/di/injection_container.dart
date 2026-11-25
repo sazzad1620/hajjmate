@@ -25,6 +25,7 @@ import 'package:hajjmate/src/features/auth/presentation/bloc/login_bloc.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/sign_out_bloc.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/sign_up_bloc.dart';
 import 'package:hajjmate/src/features/map/presentation/bloc/group_map_bloc.dart';
+import 'package:hajjmate/src/features/map/presentation/bloc/own_position_bloc.dart';
 import 'package:hajjmate/src/features/splash/presentation/bloc/splash_bloc.dart';
 import 'package:hajjmate/src/features/tracking/data/repositories/realtime_location_repository.dart';
 import 'package:hajjmate/src/features/tracking/data/services/foreground_location_sharing_service.dart';
@@ -36,6 +37,7 @@ import 'package:hajjmate/src/features/tracking/domain/usecases/get_sharing_statu
 import 'package:hajjmate/src/features/tracking/domain/usecases/start_location_sharing_use_case.dart';
 import 'package:hajjmate/src/features/tracking/domain/usecases/stop_location_sharing_use_case.dart';
 import 'package:hajjmate/src/features/tracking/domain/usecases/watch_group_locations_use_case.dart';
+import 'package:hajjmate/src/features/tracking/domain/usecases/watch_own_position_use_case.dart';
 import 'package:hajjmate/src/features/tracking/presentation/bloc/location_sharing_bloc.dart';
 import 'package:hajjmate/src/features/zones/data/repositories/firestore_zone_repository.dart';
 import 'package:hajjmate/src/features/zones/data/services/native_geofence_registry.dart';
@@ -56,7 +58,6 @@ import 'package:hajjmate/src/features/zones/presentation/bloc/zone_list_bloc.dar
 
 final GetIt getIt = GetIt.instance;
 
-// Each feature registers its classes in its own function, interface first.
 void configureDependencies() {
   _registerCore();
   _registerAuth();
@@ -123,6 +124,9 @@ void _registerTracking() {
     ..registerLazySingleton<WatchGroupLocationsUseCase>(
       () => WatchGroupLocationsUseCase(getIt()),
     )
+    ..registerLazySingleton<WatchOwnPositionUseCase>(
+      () => WatchOwnPositionUseCase(getIt()),
+    )
     ..registerFactory<LocationSharingBloc>(
       () => LocationSharingBloc(
         getIt(),
@@ -135,7 +139,9 @@ void _registerTracking() {
 }
 
 void _registerMap() {
-  getIt.registerFactory<GroupMapBloc>(() => GroupMapBloc(getIt(), getIt()));
+  getIt
+    ..registerFactory<GroupMapBloc>(() => GroupMapBloc(getIt(), getIt()))
+    ..registerFactory<OwnPositionBloc>(() => OwnPositionBloc(getIt()));
 }
 
 void _registerZones() {

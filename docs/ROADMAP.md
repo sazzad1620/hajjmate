@@ -71,11 +71,11 @@
   `GeofenceRegistry` / `NativeGeofenceRegistry` registers the zones on the Hajji's phone and re-syncs when zones change.
   *Done when:* adding, editing or deleting a zone updates the phone's registered geofences.
 
-- [ ] **10. Geofence alerts** `geofence`
+- [x] **10. Geofence alerts** `geofence`
   `Alert` and `AlertType`, callback shows a local notification to the Hajji and writes an enter/exit `Alert` to `alerts/{groupId}`.
   *Done when:* story 5 passes, including with the app in the background.
 
-- [ ] **11. Leader alerts** `geofence`
+- [x] **11. Leader alerts** `geofence`
   Alert listener in the foreground service, notification on the leader's phone, alert list screen (all alerts, newest first).
   *Done when:* story 4 passes: alert arrives within about 60 s and stays in the list.
 

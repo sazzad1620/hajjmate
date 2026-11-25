@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:hajjmate/src/core/constants/app_constants.dart';
 import 'package:hajjmate/src/features/map/presentation/widgets/member_marker.dart';
+import 'package:hajjmate/src/features/map/presentation/widgets/own_position_dot.dart';
 import 'package:hajjmate/src/features/map/presentation/widgets/member_sheet.dart';
 import 'package:hajjmate/src/features/tracking/domain/entities/location_update.dart';
 import 'package:hajjmate/src/features/zones/domain/entities/zone.dart';
+import 'package:hajjmate/src/shared/models/coordinates.dart';
 import 'package:hajjmate/src/features/zones/presentation/widgets/zone_layers.dart';
 import 'package:hajjmate/src/shared/widgets/map/osm_tile_layer.dart';
 import 'package:latlong2/latlong.dart';
@@ -14,8 +16,14 @@ import 'package:latlong2/latlong.dart';
 class GroupMap extends StatefulWidget {
   final List<LocationUpdate> members;
   final List<Zone> zones;
+  final Coordinates? ownPosition;
 
-  const GroupMap({super.key, this.members = const [], this.zones = const []});
+  const GroupMap({
+    super.key,
+    this.members = const [],
+    this.zones = const [],
+    this.ownPosition,
+  });
 
   @override
   State<GroupMap> createState() => _GroupMapState();
@@ -54,7 +62,9 @@ class _GroupMapState extends State<GroupMap> {
   }
 
   void _fitOnce() {
+    final own = widget.ownPosition;
     final points = [
+      if (own != null) LatLng(own.latitude, own.longitude),
       for (final member in widget.members) _pointOf(member),
       for (final zone in widget.zones)
         LatLng(zone.centre.latitude, zone.centre.longitude),
@@ -108,6 +118,20 @@ class _GroupMapState extends State<GroupMap> {
               ),
           ],
         ),
+        if (widget.ownPosition != null)
+          MarkerLayer(
+            markers: [
+              Marker(
+                point: LatLng(
+                  widget.ownPosition!.latitude,
+                  widget.ownPosition!.longitude,
+                ),
+                width: 22,
+                height: 22,
+                child: const OwnPositionDot(),
+              ),
+            ],
+          ),
         const RichAttributionWidget(
           attributions: [TextSourceAttribution('OpenStreetMap contributors')],
         ),

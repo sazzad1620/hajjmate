@@ -18,6 +18,8 @@ import 'package:hajjmate/src/features/home/presentation/screens/screen_main_shel
 import 'package:hajjmate/src/features/home/presentation/shell_destination.dart';
 import 'package:hajjmate/src/features/map/presentation/bloc/group_map_bloc.dart';
 import 'package:hajjmate/src/features/map/presentation/bloc/group_map_event.dart';
+import 'package:hajjmate/src/features/map/presentation/bloc/own_position_bloc.dart';
+import 'package:hajjmate/src/features/map/presentation/bloc/own_position_event.dart';
 import 'package:hajjmate/src/features/map/presentation/screens/screen_hajji_map.dart';
 import 'package:hajjmate/src/features/map/presentation/screens/screen_leader_map.dart';
 import 'package:hajjmate/src/features/profile/presentation/screens/screen_hajji_profile.dart';
@@ -89,6 +91,8 @@ GoRouter createAppRouter() {
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) => BlocProvider(
+          // Nothing reads this bloc, so it must not wait to be asked for.
+          lazy: false,
           create: (_) =>
               getIt<AlertMonitorBloc>()..add(const AlertMonitorStarted()),
           child: ScreenMainShell(
@@ -178,9 +182,18 @@ GoRouter createAppRouter() {
             routes: [
               GoRoute(
                 path: AppRoutes.hajjiMap,
-                builder: (context, state) => BlocProvider(
-                  create: (_) =>
-                      getIt<ZoneListBloc>()..add(const ZoneListStarted()),
+                builder: (context, state) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (_) =>
+                          getIt<ZoneListBloc>()..add(const ZoneListStarted()),
+                    ),
+                    BlocProvider(
+                      create: (_) =>
+                          getIt<OwnPositionBloc>()
+                            ..add(const OwnPositionStarted()),
+                    ),
+                  ],
                   child: const ScreenHajjiMap(),
                 ),
               ),

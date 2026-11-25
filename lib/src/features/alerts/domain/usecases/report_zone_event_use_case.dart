@@ -6,7 +6,6 @@ import 'package:hajjmate/src/features/alerts/domain/entities/alert_type.dart';
 import 'package:hajjmate/src/features/alerts/domain/repositories/alert_repository.dart';
 import 'package:hajjmate/src/features/alerts/domain/services/notifier.dart';
 
-/// Tells the Hajji and then the leader that the Hajji entered or left a zone.
 class ReportZoneEventUseCase implements UseCase<Alert, Unit> {
   final AlertRepository _repository;
   final Notifier _notifier;

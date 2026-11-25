@@ -12,7 +12,7 @@ import 'package:hajjmate/src/features/zones/presentation/bloc/geofence_sync_even
 import 'package:hajjmate/src/features/zones/presentation/bloc/geofence_sync_state.dart';
 import 'package:hajjmate/src/shared/models/no_params.dart';
 
-/// Keeps the Hajji's phone geofences equal to the group's zones.
+// Keeps the Hajji's phone geofences equal to the group's zones.
 class GeofenceSyncBloc extends Bloc<GeofenceSyncEvent, GeofenceSyncState> {
   final GetCurrentUserUseCase _getCurrentUser;
   final WatchZonesUseCase _watchZones;

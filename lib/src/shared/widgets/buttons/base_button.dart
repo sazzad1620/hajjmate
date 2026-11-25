@@ -5,7 +5,6 @@ class BaseButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool isLoading;
 
-  /// The main action of a screen is filled; a second button is secondary.
   final bool isPrimary;
 
   const BaseButton({

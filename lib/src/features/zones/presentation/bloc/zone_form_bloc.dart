@@ -55,7 +55,6 @@ class ZoneFormBloc extends Bloc<ZoneFormEvent, ZoneFormState> {
       return;
     }
 
-    // Without a position the map just opens at its default place.
     try {
       if (!await _locationProvider.requestPermissions()) return;
       final position = await _locationProvider.currentPosition();

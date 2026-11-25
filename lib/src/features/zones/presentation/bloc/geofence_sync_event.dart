@@ -11,8 +11,6 @@ class GeofenceSyncStarted extends GeofenceSyncEvent {
   const GeofenceSyncStarted();
 }
 
-/// Sync again with the zones already known, for example after the app was
-/// in the settings.
 class GeofenceSyncRequested extends GeofenceSyncEvent {
   const GeofenceSyncRequested();
 }
