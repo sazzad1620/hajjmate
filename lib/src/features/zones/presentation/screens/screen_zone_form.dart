@@ -4,10 +4,12 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hajjmate/src/core/constants/app_constants.dart';
 import 'package:hajjmate/src/core/utils/validators.dart';
+import 'package:hajjmate/src/features/zones/domain/entities/zone.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/zone_form_bloc.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/zone_form_event.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/zone_form_state.dart';
 import 'package:hajjmate/src/shared/models/coordinates.dart';
+import 'package:hajjmate/src/shared/theme/app_colors.dart';
 import 'package:hajjmate/src/shared/widgets/buttons/base_button.dart';
 import 'package:hajjmate/src/shared/widgets/inputfields/base_input.dart';
 import 'package:hajjmate/src/shared/widgets/map/osm_tile_layer.dart';
@@ -15,7 +17,10 @@ import 'package:hajjmate/src/shared/widgets/toast/app_toast.dart';
 import 'package:latlong2/latlong.dart';
 
 class ScreenZoneForm extends StatefulWidget {
-  const ScreenZoneForm({super.key});
+  /// The zone to edit, or null to create a new one.
+  final Zone? zone;
+
+  const ScreenZoneForm({super.key, this.zone});
 
   @override
   State<ScreenZoneForm> createState() => _ScreenZoneFormState();
@@ -25,7 +30,7 @@ class _ScreenZoneFormState extends State<ScreenZoneForm> {
   static const LatLng _fallbackCenter = LatLng(21.4225, 39.8262);
 
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
+  late final _nameController = TextEditingController(text: widget.zone?.name);
   final _mapController = MapController();
   bool _mapReady = false;
 
@@ -47,9 +52,33 @@ class _ScreenZoneFormState extends State<ScreenZoneForm> {
     context.read<ZoneFormBloc>().add(ZoneSubmitted(_nameController.text));
   }
 
+  Future<void> _confirmDelete() async {
+    final bloc = context.read<ZoneFormBloc>();
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Delete this zone?'),
+        content: const Text('This cannot be undone.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            style: TextButton.styleFrom(foregroundColor: AppColors.danger),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) bloc.add(const ZoneDeleted());
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final isEditing = widget.zone != null;
 
     return MultiBlocListener(
       listeners: [
@@ -71,7 +100,7 @@ class _ScreenZoneFormState extends State<ScreenZoneForm> {
         ),
       ],
       child: Scaffold(
-        appBar: AppBar(title: const Text('New zone')),
+        appBar: AppBar(title: Text(isEditing ? 'Edit zone' : 'New zone')),
         body: BlocBuilder<ZoneFormBloc, ZoneFormState>(
           builder: (context, state) {
             final centre = state.centre;
@@ -202,6 +231,17 @@ class _ScreenZoneFormState extends State<ScreenZoneForm> {
                                 state.status == ZoneFormStatus.submitting,
                             onPressed: _submit,
                           ),
+                          if (isEditing)
+                            TextButton(
+                              onPressed:
+                                  state.status == ZoneFormStatus.submitting
+                                  ? null
+                                  : _confirmDelete,
+                              style: TextButton.styleFrom(
+                                foregroundColor: AppColors.danger,
+                              ),
+                              child: const Text('Delete zone'),
+                            ),
                         ],
                       ),
                     ),

@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hajjmate/src/features/map/presentation/bloc/group_map_bloc.dart';
 import 'package:hajjmate/src/features/map/presentation/bloc/group_map_state.dart';
 import 'package:hajjmate/src/features/map/presentation/widgets/group_map.dart';
+import 'package:hajjmate/src/features/zones/presentation/bloc/zone_list_bloc.dart';
+import 'package:hajjmate/src/features/zones/presentation/bloc/zone_list_state.dart';
 
 class ScreenLeaderMap extends StatelessWidget {
   const ScreenLeaderMap({super.key});
@@ -25,7 +27,10 @@ class ScreenLeaderMap extends StatelessWidget {
         builder: (context, state) {
           return Stack(
             children: [
-              GroupMap(members: state.members),
+              BlocBuilder<ZoneListBloc, ZoneListState>(
+                builder: (context, zoneState) =>
+                    GroupMap(members: state.members, zones: zoneState.zones),
+              ),
               SafeArea(
                 child: Align(
                   alignment: Alignment.topCenter,

@@ -31,6 +31,8 @@ import 'package:hajjmate/src/features/tracking/presentation/bloc/location_sharin
 import 'package:hajjmate/src/features/zones/data/repositories/firestore_zone_repository.dart';
 import 'package:hajjmate/src/features/zones/domain/repositories/zone_repository.dart';
 import 'package:hajjmate/src/features/zones/domain/usecases/create_zone_use_case.dart';
+import 'package:hajjmate/src/features/zones/domain/usecases/delete_zone_use_case.dart';
+import 'package:hajjmate/src/features/zones/domain/usecases/update_zone_use_case.dart';
 import 'package:hajjmate/src/features/zones/domain/usecases/watch_zones_use_case.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/zone_form_bloc.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/zone_list_bloc.dart';
@@ -123,9 +125,11 @@ void _registerZones() {
     )
     ..registerLazySingleton<WatchZonesUseCase>(() => WatchZonesUseCase(getIt()))
     ..registerLazySingleton<CreateZoneUseCase>(() => CreateZoneUseCase(getIt()))
+    ..registerLazySingleton<UpdateZoneUseCase>(() => UpdateZoneUseCase(getIt()))
+    ..registerLazySingleton<DeleteZoneUseCase>(() => DeleteZoneUseCase(getIt()))
     ..registerFactory<ZoneListBloc>(() => ZoneListBloc(getIt(), getIt()))
     ..registerFactory<ZoneFormBloc>(
-      () => ZoneFormBloc(getIt(), getIt(), getIt()),
+      () => ZoneFormBloc(getIt(), getIt(), getIt(), getIt(), getIt()),
     );
 }
 

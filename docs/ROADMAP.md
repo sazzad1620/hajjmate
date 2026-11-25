@@ -63,7 +63,7 @@
   *Done when:* the `Zone` tests pass (a point inside, on and outside; a radius below 100 m rejected), a leader creates and lists zones and an 11th is refused.
   *Reference:* field-track `features/locations/` (`geofence_radius_slider.dart`, `location_radius_limits.dart`).
 
-- [ ] **8. Zones: edit, delete, show on maps** `zone`
+- [x] **8. Zones: edit, delete, show on maps** `zone`
   Edit name and radius, delete, zones drawn on the leader's and the Hajji's map.
   *Done when:* story 3 passes.
 

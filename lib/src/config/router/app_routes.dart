@@ -11,6 +11,7 @@ class AppRoutes {
   static const String leaderMap = '/leader/map';
   static const String leaderZones = '/leader/zones';
   static const String zoneForm = '/leader/zones/new';
+  static const String zoneEdit = '/leader/zones/edit';
   static const String leaderAlerts = '/leader/alerts';
   static const String leaderMore = '/leader/more';
 

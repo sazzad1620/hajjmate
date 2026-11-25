@@ -13,11 +13,13 @@ import 'package:hajjmate/src/features/home/presentation/screens/screen_main_shel
 import 'package:hajjmate/src/features/home/presentation/shell_destination.dart';
 import 'package:hajjmate/src/features/map/presentation/bloc/group_map_bloc.dart';
 import 'package:hajjmate/src/features/map/presentation/bloc/group_map_event.dart';
+import 'package:hajjmate/src/features/map/presentation/screens/screen_hajji_map.dart';
 import 'package:hajjmate/src/features/map/presentation/screens/screen_leader_map.dart';
 import 'package:hajjmate/src/features/profile/presentation/screens/screen_hajji_profile.dart';
 import 'package:hajjmate/src/features/profile/presentation/screens/screen_leader_more.dart';
 import 'package:hajjmate/src/features/splash/presentation/bloc/splash_bloc.dart';
 import 'package:hajjmate/src/features/tracking/presentation/bloc/location_sharing_bloc.dart';
+import 'package:hajjmate/src/features/zones/domain/entities/zone.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/zone_form_bloc.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/zone_form_event.dart';
 import 'package:hajjmate/src/features/zones/presentation/bloc/zone_list_bloc.dart';
@@ -68,6 +70,17 @@ GoRouter createAppRouter() {
           child: const ScreenZoneForm(),
         ),
       ),
+      GoRoute(
+        path: AppRoutes.zoneEdit,
+        builder: (context, state) {
+          final zone = state.extra! as Zone;
+          return BlocProvider(
+            create: (_) =>
+                getIt<ZoneFormBloc>()..add(ZoneFormStarted(zone: zone)),
+            child: ScreenZoneForm(zone: zone),
+          );
+        },
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) => ScreenMainShell(
           navigationShell: navigationShell,
@@ -78,9 +91,17 @@ GoRouter createAppRouter() {
             routes: [
               GoRoute(
                 path: AppRoutes.leaderMap,
-                builder: (context, state) => BlocProvider(
-                  create: (_) =>
-                      getIt<GroupMapBloc>()..add(const GroupMapStarted()),
+                builder: (context, state) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (_) =>
+                          getIt<GroupMapBloc>()..add(const GroupMapStarted()),
+                    ),
+                    BlocProvider(
+                      create: (_) =>
+                          getIt<ZoneListBloc>()..add(const ZoneListStarted()),
+                    ),
+                  ],
                   child: const ScreenLeaderMap(),
                 ),
               ),
@@ -140,7 +161,11 @@ GoRouter createAppRouter() {
             routes: [
               GoRoute(
                 path: AppRoutes.hajjiMap,
-                builder: (context, state) => const PlaceholderTab(title: 'Map'),
+                builder: (context, state) => BlocProvider(
+                  create: (_) =>
+                      getIt<ZoneListBloc>()..add(const ZoneListStarted()),
+                  child: const ScreenHajjiMap(),
+                ),
               ),
             ],
           ),

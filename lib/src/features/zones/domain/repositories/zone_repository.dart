@@ -10,4 +10,9 @@ abstract class ZoneRepository {
 
   /// The storage gives the new zone its id, so [Zone.id] is ignored.
   Future<Either<Failure, Unit>> createZone(Zone zone);
+
+  /// Saves the name and radius; the centre stays as it was.
+  Future<Either<Failure, Unit>> updateZone(Zone zone);
+
+  Future<Either<Failure, Unit>> deleteZone(String zoneId);
 }

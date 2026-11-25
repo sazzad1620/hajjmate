@@ -62,4 +62,27 @@ class FirestoreZoneRepository implements ZoneRepository {
       return Left(_errorHandler.handle(e));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> updateZone(Zone zone) async {
+    try {
+      await _zones
+          .doc(zone.id)
+          .update({'name': zone.name, 'radiusM': zone.radiusM})
+          .timeout(_timeout);
+      return const Right(unit);
+    } catch (e) {
+      return Left(_errorHandler.handle(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteZone(String zoneId) async {
+    try {
+      await _zones.doc(zoneId).delete().timeout(_timeout);
+      return const Right(unit);
+    } catch (e) {
+      return Left(_errorHandler.handle(e));
+    }
+  }
 }

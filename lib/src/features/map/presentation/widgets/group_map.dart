@@ -6,13 +6,16 @@ import 'package:hajjmate/src/core/constants/app_constants.dart';
 import 'package:hajjmate/src/features/map/presentation/widgets/member_marker.dart';
 import 'package:hajjmate/src/features/map/presentation/widgets/member_sheet.dart';
 import 'package:hajjmate/src/features/tracking/domain/entities/location_update.dart';
+import 'package:hajjmate/src/features/zones/domain/entities/zone.dart';
+import 'package:hajjmate/src/features/zones/presentation/widgets/zone_layers.dart';
 import 'package:hajjmate/src/shared/widgets/map/osm_tile_layer.dart';
 import 'package:latlong2/latlong.dart';
 
 class GroupMap extends StatefulWidget {
   final List<LocationUpdate> members;
+  final List<Zone> zones;
 
-  const GroupMap({super.key, required this.members});
+  const GroupMap({super.key, this.members = const [], this.zones = const []});
 
   @override
   State<GroupMap> createState() => _GroupMapState();
@@ -51,11 +54,16 @@ class _GroupMapState extends State<GroupMap> {
   }
 
   void _fitOnce() {
-    if (!_mapReady || _fitted || widget.members.isEmpty) return;
+    final points = [
+      for (final member in widget.members) _pointOf(member),
+      for (final zone in widget.zones)
+        LatLng(zone.centre.latitude, zone.centre.longitude),
+    ];
+    if (!_mapReady || _fitted || points.isEmpty) return;
     _fitted = true;
     _controller.fitCamera(
       CameraFit.coordinates(
-        coordinates: [for (final member in widget.members) _pointOf(member)],
+        coordinates: points,
         padding: const EdgeInsets.all(72),
         maxZoom: 16,
       ),
@@ -81,6 +89,7 @@ class _GroupMapState extends State<GroupMap> {
       ),
       children: [
         OsmTileLayer(),
+        ...zoneLayers(context, widget.zones),
         MarkerLayer(
           markers: [
             for (final member in widget.members)

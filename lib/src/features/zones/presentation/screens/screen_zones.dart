@@ -86,6 +86,7 @@ class _ZoneTile extends StatelessWidget {
         leading: const Icon(Icons.pin_drop_rounded),
         title: Text(zone.name),
         trailing: Text('${zone.radiusM.round()} m'),
+        onTap: () => context.push(AppRoutes.zoneEdit, extra: zone),
       ),
     );
   }
