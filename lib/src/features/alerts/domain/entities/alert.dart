@@ -23,6 +23,12 @@ class Alert extends Equatable {
     required this.timestamp,
   });
 
+  /// For the leader: "Rahim left Hotel".
+  String get summary {
+    final action = type == AlertType.enter ? 'entered' : 'left';
+    return '$userName $action $zoneName';
+  }
+
   @override
   List<Object?> get props => [
     type,

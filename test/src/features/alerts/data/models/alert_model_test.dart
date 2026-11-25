@@ -30,4 +30,43 @@ void main() {
       });
     });
   });
+
+  group('AlertModel.fromMap', () {
+    test('reads what toMap wrote', () {
+      final alert = Alert(
+        type: AlertType.enter,
+        groupId: 'default',
+        userId: 'u1',
+        userName: 'Rahim',
+        zoneId: 'z1',
+        zoneName: 'Hotel',
+        position: const Coordinates(latitude: 21.4225, longitude: 39.8262),
+        timestamp: DateTime.fromMillisecondsSinceEpoch(1764000000000),
+      );
+
+      final read = AlertModel.fromMap(
+        groupId: 'default',
+        map: AlertModel(alert).toMap(),
+      );
+
+      expect(read.alert, alert);
+    });
+  });
+
+  group('Alert.summary', () {
+    test('names the Hajji, the action and the zone', () {
+      final alert = Alert(
+        type: AlertType.exit,
+        groupId: 'default',
+        userId: 'u1',
+        userName: 'Rahim',
+        zoneId: 'z1',
+        zoneName: 'Hotel',
+        position: const Coordinates(latitude: 21.4225, longitude: 39.8262),
+        timestamp: DateTime(2026, 11, 25),
+      );
+
+      expect(alert.summary, 'Rahim left Hotel');
+    });
+  });
 }

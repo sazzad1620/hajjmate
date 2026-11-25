@@ -3,6 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hajjmate/src/core/errors/error_handler.dart';
+import 'package:hajjmate/src/features/alerts/data/repositories/realtime_alert_repository.dart';
+import 'package:hajjmate/src/features/alerts/data/services/foreground_alert_monitor_service.dart';
+import 'package:hajjmate/src/features/alerts/domain/repositories/alert_repository.dart';
+import 'package:hajjmate/src/features/alerts/domain/services/alert_monitor_service.dart';
+import 'package:hajjmate/src/features/alerts/domain/usecases/start_alert_monitoring_use_case.dart';
+import 'package:hajjmate/src/features/alerts/domain/usecases/stop_alert_monitoring_use_case.dart';
+import 'package:hajjmate/src/features/alerts/domain/usecases/watch_alerts_use_case.dart';
+import 'package:hajjmate/src/features/alerts/presentation/bloc/alert_list_bloc.dart';
+import 'package:hajjmate/src/features/alerts/presentation/bloc/alert_monitor_bloc.dart';
 import 'package:hajjmate/src/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:hajjmate/src/features/auth/data/repositories/firebase_auth_repository.dart';
 import 'package:hajjmate/src/features/auth/domain/repositories/auth_repository.dart';
@@ -54,6 +63,7 @@ void configureDependencies() {
   _registerTracking();
   _registerMap();
   _registerZones();
+  _registerAlerts();
   _registerSplash();
 }
 
@@ -85,7 +95,9 @@ void _registerAuth() {
     ..registerFactory<LoginBloc>(() => LoginBloc(getIt()))
     ..registerFactory<SignUpBloc>(() => SignUpBloc(getIt()))
     ..registerFactory<ForgotPasswordBloc>(() => ForgotPasswordBloc(getIt()))
-    ..registerFactory<SignOutBloc>(() => SignOutBloc(getIt(), getIt()));
+    ..registerFactory<SignOutBloc>(
+      () => SignOutBloc(getIt(), getIt(), getIt()),
+    );
 }
 
 void _registerTracking() {
@@ -156,6 +168,29 @@ void _registerZones() {
     ..registerFactory<ZoneListBloc>(() => ZoneListBloc(getIt(), getIt()))
     ..registerFactory<ZoneFormBloc>(
       () => ZoneFormBloc(getIt(), getIt(), getIt(), getIt(), getIt()),
+    );
+}
+
+void _registerAlerts() {
+  getIt
+    ..registerLazySingleton<AlertRepository>(
+      () => RealtimeAlertRepository(getIt(), getIt()),
+    )
+    ..registerLazySingleton<AlertMonitorService>(
+      ForegroundAlertMonitorService.new,
+    )
+    ..registerLazySingleton<WatchAlertsUseCase>(
+      () => WatchAlertsUseCase(getIt()),
+    )
+    ..registerLazySingleton<StartAlertMonitoringUseCase>(
+      () => StartAlertMonitoringUseCase(getIt()),
+    )
+    ..registerLazySingleton<StopAlertMonitoringUseCase>(
+      () => StopAlertMonitoringUseCase(getIt()),
+    )
+    ..registerFactory<AlertListBloc>(() => AlertListBloc(getIt(), getIt()))
+    ..registerFactory<AlertMonitorBloc>(
+      () => AlertMonitorBloc(getIt(), getIt()),
     );
 }
 

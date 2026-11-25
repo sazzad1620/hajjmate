@@ -2,6 +2,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hajjmate/src/config/di/injection_container.dart';
 import 'package:hajjmate/src/config/router/app_routes.dart';
+import 'package:hajjmate/src/features/alerts/presentation/bloc/alert_list_bloc.dart';
+import 'package:hajjmate/src/features/alerts/presentation/bloc/alert_list_event.dart';
+import 'package:hajjmate/src/features/alerts/presentation/bloc/alert_monitor_bloc.dart';
+import 'package:hajjmate/src/features/alerts/presentation/bloc/alert_monitor_event.dart';
+import 'package:hajjmate/src/features/alerts/presentation/screens/screen_alerts.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/forgot_password_bloc.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/login_bloc.dart';
 import 'package:hajjmate/src/features/auth/presentation/bloc/sign_up_bloc.dart';
@@ -31,7 +36,6 @@ import 'package:hajjmate/src/features/zones/presentation/screens/screen_zones.da
 import 'package:hajjmate/src/features/tracking/presentation/bloc/location_sharing_event.dart';
 import 'package:hajjmate/src/features/splash/presentation/bloc/splash_event.dart';
 import 'package:hajjmate/src/features/splash/presentation/screens/screen_splash.dart';
-import 'package:hajjmate/src/shared/widgets/layouts/placeholder_tab.dart';
 
 GoRouter createAppRouter() {
   return GoRouter(
@@ -84,9 +88,13 @@ GoRouter createAppRouter() {
         },
       ),
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) => ScreenMainShell(
-          navigationShell: navigationShell,
-          destinations: ShellDestination.leader,
+        builder: (context, state, navigationShell) => BlocProvider(
+          create: (_) =>
+              getIt<AlertMonitorBloc>()..add(const AlertMonitorStarted()),
+          child: ScreenMainShell(
+            navigationShell: navigationShell,
+            destinations: ShellDestination.leader,
+          ),
         ),
         branches: [
           StatefulShellBranch(
@@ -125,8 +133,11 @@ GoRouter createAppRouter() {
             routes: [
               GoRoute(
                 path: AppRoutes.leaderAlerts,
-                builder: (context, state) =>
-                    const PlaceholderTab(title: 'Alerts'),
+                builder: (context, state) => BlocProvider(
+                  create: (_) =>
+                      getIt<AlertListBloc>()..add(const AlertListStarted()),
+                  child: const ScreenAlerts(),
+                ),
               ),
             ],
           ),
